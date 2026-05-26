@@ -1,0 +1,1584 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Painel de Festas — INJOY</title>
+<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body{background:#eef0f2;font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;}
+.navbar-injoy{background:#1c1c2e;border:none;border-radius:0;margin-bottom:0;min-height:40px;}
+.navbar-injoy .navbar-brand{color:#fff;font-weight:700;font-size:15px;padding:10px 20px;}
+.navbar-injoy .navbar-nav>li>a{color:#bbb;font-size:12px;padding:11px 10px;}
+.navbar-injoy .navbar-nav>li>a:hover,.navbar-injoy .navbar-nav>li.active>a{color:#fff;background:rgba(255,255,255,.08);}
+.bcrumb{background:#fff;border-bottom:1px solid #ddd;padding:7px 20px;display:flex;align-items:center;gap:6px;}
+.bcrumb span{color:#aaa;font-size:12px;}
+.main{padding:20px;}
+.nav-tabs-pf{border-bottom:3px solid #e8a000;margin-bottom:20px;}
+.nav-tabs-pf>li>a{border-radius:4px 4px 0 0;color:#555;font-size:13px;padding:8px 16px;}
+.nav-tabs-pf>li>a:hover{background:#f5f5f5;border-color:transparent;}
+.nav-tabs-pf>li.active>a,.nav-tabs-pf>li.active>a:focus,.nav-tabs-pf>li.active>a:hover{background:#e8a000;color:#fff;border-color:#e8a000 #e8a000 transparent;}
+.festa-card{background:#fff;border:1px solid #ddd;border-radius:4px;margin-bottom:12px;overflow:hidden;}
+.festa-header{background:#f7f7f7;border-bottom:1px solid #e8e8e8;padding:10px 15px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.festa-header:hover{background:#f0f0f0;}
+.festa-header h4{margin:0;font-size:14px;font-weight:600;}
+.festa-body{padding:15px;}
+.festa-meta{font-size:11px;color:#888;margin-top:2px;}
+.lote-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid #e8e8e8;border-radius:3px;margin-bottom:6px;background:#fafafa;}
+.lote-row:hover{border-color:#bbb;background:#f5f5f5;}
+.lote-nome{font-weight:600;font-size:13px;min-width:70px;}
+.lote-sexo{font-size:11px;color:#888;min-width:80px;}
+.lote-status{font-size:11px;padding:2px 9px;border-radius:10px;white-space:nowrap;}
+.st-Online{background:#dff0d8;color:#3c763d;}
+.st-Offline{background:#f2dede;color:#a94442;}
+.st-Finalizado{background:#d9edf7;color:#31708f;}
+.st-Simulado{background:#fcf8e3;color:#8a6d3b;}
+.st-Projetado{background:#f0eaff;color:#6a3db8;}
+.lote-metrics{display:flex;gap:14px;flex:1;flex-wrap:wrap;}
+.metric{text-align:center;}
+.metric .val{font-size:13px;font-weight:700;}
+.metric .lbl{font-size:10px;color:#aaa;line-height:1.2;}
+.mg-good{color:#3c763d;}.mg-ok{color:#c8860a;}.mg-bad{color:#a94442;}
+.filter-box{background:#fff;border:1px solid #ddd;border-radius:4px;padding:12px 15px;margin-bottom:15px;}
+.tbl-analise{font-size:11px;white-space:nowrap;}
+.tbl-analise thead th{background:#2c2c3e;color:#fff;padding:6px 8px;font-size:11px;}
+.tbl-analise td{padding:5px 8px;vertical-align:middle;}
+.tbl-analise tbody tr:hover{background:#f5f8ff;}
+.tbl-analise thead th.sortable{cursor:pointer;user-select:none;}
+.tbl-analise thead th.sortable:hover{background:#3c3c4e;}
+.tbl-analise tr.bst-Online td:first-child{border-left:3px solid #5cb85c;}
+.tbl-analise tr.bst-Offline td:first-child{border-left:3px solid #d9534f;}
+.tbl-analise tr.bst-Finalizado td:first-child{border-left:3px solid #337ab7;}
+.tbl-analise tr.bst-Simulado td:first-child{border-left:3px solid #f0ad4e;}
+.tbl-analise tr.bst-Projetado td:first-child{border-left:3px solid #9b59b6;}
+.mg-cell-good{background:#e6f4ea;color:#2d6a4f;font-weight:600;}
+.mg-cell-ok{background:#fff8e1;color:#7d5a00;font-weight:600;}
+.mg-cell-bad{background:#fdecea;color:#922b21;font-weight:600;}
+.sim-box{background:#fff;border:1px solid #ddd;border-radius:4px;padding:20px;}
+.sim-result-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0f0;}
+.sim-result-row:last-child{border-bottom:none;}
+.sim-lbl{color:#666;font-size:12px;}.sim-val{font-size:14px;font-weight:700;}
+.sim-highlight{background:#fffbf0;border:1px solid #f0c040;border-radius:4px;padding:10px 14px;margin:10px 0;}
+.proj-table{width:100%;font-size:12px;border-collapse:collapse;}
+.proj-table th{background:#f0f0f0;padding:6px 10px;text-align:left;border:1px solid #ddd;}
+.proj-table td{padding:5px 10px;border:1px solid #eee;}
+.deal-card{background:#fff;border:1px solid #ddd;border-radius:4px;margin-bottom:12px;}
+.deal-header{padding:12px 15px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;}
+.deal-header h4{margin:0;font-size:14px;}
+.deal-body{padding:15px;}
+.deal-badge{font-size:11px;padding:2px 10px;border-radius:10px;}
+.db-Negociação{background:#fcf8e3;color:#8a6d3b;}.db-Ativo{background:#dff0d8;color:#3c763d;}.db-Encerrado{background:#f2dede;color:#a94442;}
+.fase-box{border:1px solid #ddd;border-radius:4px;padding:12px;margin-bottom:8px;}
+.fase-box.fase1{border-color:#5cb85c;background:#f9fff9;}.fase-box.fase2{border-color:#337ab7;background:#f5f9ff;}
+.fase-label{font-size:11px;font-weight:700;color:#555;margin-bottom:6px;}
+.lote-tbl{width:100%;font-size:11px;border-collapse:collapse;margin-top:6px;}
+.lote-tbl th{background:#f5f5f5;padding:4px 8px;text-align:left;border:1px solid #eee;}
+.lote-tbl td{padding:3px 8px;border:1px solid #eee;}
+.est-bar{height:10px;border-radius:5px;background:#e8e8e8;margin-top:4px;overflow:hidden;}
+.est-fill{height:100%;border-radius:5px;}
+.est-fill.good{background:#5cb85c;}.est-fill.warn{background:#f0ad4e;}.est-fill.danger{background:#d9534f;}
+.sec-title{font-size:13px;font-weight:700;color:#333;border-bottom:2px solid #e8a000;padding-bottom:5px;margin-bottom:14px;}
+.btn-orange{background:#e8a000;border-color:#d09000;color:#fff;}.btn-orange:hover{background:#d09000;color:#fff;}
+.empty-state{text-align:center;padding:30px;color:#aaa;}
+.inline-table{width:100%;font-size:12px;border-collapse:collapse;}
+.inline-table th{background:#f5f5f5;padding:5px 8px;text-align:left;border:1px solid #ddd;}
+.inline-table td{padding:4px 6px;border:1px solid #eee;vertical-align:middle;}
+.inline-table input,.inline-table select{width:100%;border:1px solid #ccc;border-radius:3px;padding:3px 6px;font-size:12px;}
+.modal-deal-body{max-height:72vh;overflow-y:auto;padding-right:5px;}
+.preview-calc{background:#f5f9ff;border:1px solid #b8d4f0;border-radius:4px;padding:12px;margin-top:8px;}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-injoy">
+  <div class="container-fluid">
+    <div class="navbar-header"><a class="navbar-brand" href="#">INJOY</a></div>
+    <ul class="nav navbar-nav">
+      <li><a href="#">Geral</a></li>
+      <li><a href="#">Destinos/Eventos</a></li>
+      <li><a href="#">Produtos</a></li>
+      <li><a href="#">Pedidos</a></li>
+      <li class="active"><a href="#">Painel Festas</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><i class="fa fa-user-circle"></i> Rodrigo</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="bcrumb">
+  <a href="#" style="font-size:12px;">Painel Festas</a>
+  <span>/</span><span>Visão Geral</span>
+  <div style="margin-left:auto;display:flex;gap:6px;align-items:center;">
+    <button class="btn btn-success btn-xs" onclick="abrirModalFesta()"><i class="fa fa-plus"></i> Nova Festa</button>
+    <button class="btn btn-default btn-xs" onclick="resetarDados()" title="Voltar aos dados de exemplo"><i class="fa fa-refresh"></i> Resetar dados</button>
+  </div>
+</div>
+
+<div class="main">
+  <ul class="nav nav-tabs nav-tabs-pf">
+    <li class="active"><a href="#tab-festas"    data-toggle="tab"><i class="fa fa-star-o"></i> Festas &amp; Lotes</a></li>
+    <li><a href="#tab-analise"   data-toggle="tab" onclick="renderAnalise()"><i class="fa fa-table"></i> Análise</a></li>
+    <li><a href="#tab-simulador" data-toggle="tab"><i class="fa fa-calculator"></i> Simulador</a></li>
+    <li><a href="#tab-deals"     data-toggle="tab" onclick="renderDeals()"><i class="fa fa-handshake-o"></i> Deals</a></li>
+    <li><a href="#tab-estoque"   data-toggle="tab" onclick="renderEstoque()"><i class="fa fa-cubes"></i> Estoque</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <!-- TAB 1 -->
+    <div class="tab-pane active" id="tab-festas"><div id="lista-festas"></div></div>
+
+    <!-- TAB 2 -->
+    <div class="tab-pane" id="tab-analise">
+      <div class="filter-box">
+        <div class="row">
+          <div class="col-sm-2"><label style="font-size:12px;">Festa</label>
+            <div class="dropdown" id="f-festa-dd">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" style="width:100%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                <span id="f-festa-lbl" style="color:#555;">Todas</span>&nbsp;<span class="caret" style="float:right;margin-top:5px;"></span>
+              </button>
+              <ul class="dropdown-menu" id="f-festa-menu" style="padding:6px 12px;min-width:180px;" onclick="event.stopPropagation()"></ul>
+            </div></div>
+          <div class="col-sm-2"><label style="font-size:12px;">Status</label>
+            <div class="dropdown" id="f-status-dd">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" style="width:100%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                <span id="f-status-lbl" style="color:#555;">Todos</span>&nbsp;<span class="caret" style="float:right;margin-top:5px;"></span>
+              </button>
+              <ul class="dropdown-menu" id="f-status-menu" style="padding:6px 12px;min-width:160px;" onclick="event.stopPropagation()"></ul>
+            </div></div>
+          <div class="col-sm-2"><label style="font-size:12px;">Sexo</label>
+            <div class="dropdown" id="f-sexo-dd">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" style="width:100%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                <span id="f-sexo-lbl" style="color:#555;">Todos</span>&nbsp;<span class="caret" style="float:right;margin-top:5px;"></span>
+              </button>
+              <ul class="dropdown-menu" id="f-sexo-menu" style="padding:6px 12px;min-width:150px;" onclick="event.stopPropagation()"></ul>
+            </div></div>
+          <div class="col-sm-2"><label style="font-size:12px;">Lote</label>
+            <div class="dropdown" id="f-lote-dd">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" style="width:100%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                <span id="f-lote-lbl" style="color:#555;">Todos</span>&nbsp;<span class="caret" style="float:right;margin-top:5px;"></span>
+              </button>
+              <ul class="dropdown-menu" id="f-lote-menu" style="padding:6px 12px;min-width:160px;" onclick="event.stopPropagation()"></ul>
+            </div></div>
+          <div class="col-sm-2"><label style="font-size:12px;">Tipo de Pacote</label>
+            <div class="dropdown" id="f-tipopacote-dd">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" style="width:100%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                <span id="f-tipopacote-lbl" style="color:#555;">Todos</span>&nbsp;<span class="caret" style="float:right;margin-top:5px;"></span>
+              </button>
+              <ul class="dropdown-menu" id="f-tipopacote-menu" style="padding:6px 12px;min-width:160px;" onclick="event.stopPropagation()"></ul>
+            </div></div>
+          <div class="col-sm-2"><label style="font-size:12px;">Lote Custo</label>
+            <input type="text" class="form-control input-sm" id="f-lotecusto" placeholder="Buscar..." oninput="filtrarAnalise()" autocomplete="off"></div>
+        </div>
+        <div class="row" style="margin-top:8px;">
+          <div class="col-sm-12">
+            <button class="btn btn-orange btn-sm" onclick="filtrarAnalise()"><i class="fa fa-search"></i> Buscar</button>
+            <button class="btn btn-default btn-sm" onclick="limparFiltros()">Limpar</button>
+          </div>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="table table-bordered table-condensed tbl-analise">
+          <thead id="thead-analise"></thead>
+          <tbody id="tbody-analise"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 3 -->
+    <div class="tab-pane" id="tab-simulador">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="sim-box">
+            <div class="sec-title"><i class="fa fa-sliders"></i> Parâmetros</div>
+            <div class="form-group">
+              <label style="font-size:12px;">Carregar de lote existente <small class="text-muted">(opcional)</small></label>
+              <select class="form-control input-sm" id="sim-lote-ref" onchange="simCarregarLote()">
+                <option value="">— novo cenário —</option>
+              </select>
+            </div>
+            <hr style="margin:10px 0;">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group"><label style="font-size:12px;">Preço Ticketeira (R$)</label>
+                  <input type="number" class="form-control input-sm" id="sim-tick" placeholder="Ex: 4500" oninput="simCalc()"></div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group"><label style="font-size:12px;">Custo INJOY (R$)</label>
+                  <input type="number" class="form-control input-sm" id="sim-custo" placeholder="Ex: 3800" oninput="simCalc()"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group"><label style="font-size:12px;">Taxa Comissário (%)</label>
+                  <div class="input-group input-group-sm">
+                    <input type="number" class="form-control" id="sim-comm" value="5" step="0.5" oninput="simCalc()">
+                    <span class="input-group-addon">%</span></div></div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group"><label style="font-size:12px;">Taxa Serviço CC (%)</label>
+                  <div class="input-group input-group-sm">
+                    <input type="number" class="form-control" id="sim-taxa" value="12" step="0.5" oninput="simCalc()">
+                    <span class="input-group-addon">%</span></div></div>
+              </div>
+            </div>
+            <div class="form-group"><label style="font-size:12px;">Método de Precificação IJ</label>
+              <select class="form-control input-sm" id="sim-metodo" onchange="simMetodoChanged();simCalc();">
+                <option value="valor_abaixo_comissario">R$ abaixo do Comissário Base</option>
+                <option value="percentual_comissario">% abaixo do Comissário Base</option>
+                <option value="manual">Preço Manual</option>
+              </select></div>
+            <div class="form-group"><label style="font-size:12px;" id="sim-param-lbl">Valor (R$)</label>
+              <input type="number" class="form-control input-sm" id="sim-param" value="100" oninput="simCalc()"></div>
+            <hr style="margin:10px 0;">
+            <div class="sec-title" style="font-size:12px;"><i class="fa fa-line-chart"></i> Projeção de Lotes Futuros</div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group"><label style="font-size:12px;">Crescimento Ticketeira/lote</label>
+                  <div class="input-group input-group-sm">
+                    <input type="number" class="form-control" id="sim-gTick" value="8" step="1" oninput="simCalc()">
+                    <span class="input-group-addon">%</span></div></div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group"><label style="font-size:12px;">Crescimento Custo/lote</label>
+                  <div class="input-group input-group-sm">
+                    <input type="number" class="form-control" id="sim-gCusto" value="6" step="1" oninput="simCalc()">
+                    <span class="input-group-addon">%</span></div></div>
+              </div>
+            </div>
+            <div class="form-group"><label style="font-size:12px;">Qtd. de lotes futuros</label>
+              <input type="number" class="form-control input-sm" id="sim-nlotes" value="3" min="1" max="6" oninput="simCalc()"></div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="sim-box">
+            <div class="sec-title"><i class="fa fa-bar-chart"></i> Resultado — Lote Base</div>
+            <div id="sim-resultado-atual"><p class="text-muted"><i class="fa fa-arrow-left"></i> Preencha os parâmetros ao lado.</p></div>
+            <div class="sec-title" style="margin-top:22px;"><i class="fa fa-forward"></i> Projeção de Lotes</div>
+            <div id="sim-projecao"><p class="text-muted">—</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4 -->
+    <div class="tab-pane" id="tab-deals">
+      <div style="margin-bottom:12px;">
+        <button class="btn btn-success btn-sm" onclick="abrirModalDeal()"><i class="fa fa-plus"></i> Novo Deal</button>
+      </div>
+      <div id="lista-deals"></div>
+    </div>
+
+    <!-- TAB 5 -->
+    <div class="tab-pane" id="tab-estoque">
+      <div class="filter-box" style="margin-bottom:15px;">
+        <div class="sec-title"><i class="fa fa-upload"></i> Lancar Vendas Consolidadas</div>
+        <div class="row">
+          <div class="col-sm-3">
+            <label style="font-size:12px;">Deal</label>
+            <select class="form-control input-sm" id="est-deal-sel" onchange="atualizarEstDealSel()"><option value="">Selecione...</option></select>
+          </div>
+          <div class="col-sm-9" id="est-qtd-inputs">
+            <p class="text-muted" style="font-size:12px;margin-top:18px;">Selecione um deal para lancar vendas.</p>
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <button class="btn btn-primary btn-sm" onclick="lancarVendas()"><i class="fa fa-check"></i> Distribuir pelos Lotes</button>
+          <span class="text-muted" style="font-size:11px;margin-left:10px;">Fem + Masc abate do mesmo pool. Lote 1 primeiro, depois Lote 2.</span>
+        </div>
+      </div>
+      <div style="margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+        <label style="margin:0;font-size:12px;">Filtrar por Deal:</label>
+        <select class="form-control input-sm" id="est-filtro-deal" style="width:280px;" onchange="renderEstoque()"><option value="">Todos</option></select>
+      </div>
+      <p class="text-muted" style="font-size:11px;"><i class="fa fa-info-circle"></i> Clique em <b>Editar</b> para atualizar manualmente por lote.</p>
+      <div style="overflow-x:auto;" id="tabela-estoque"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== MODAL FESTA ===== -->
+<div class="modal fade" id="modalFesta" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="mfTitulo">Nova Festa</h4>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="mf-id">
+        <div class="form-group"><label>Nome da Festa *</label>
+          <input type="text" class="form-control input-sm" id="mf-nome" placeholder="Ex: Réveillon Arcanjos"></div>
+        <div class="row">
+          <div class="col-sm-6"><div class="form-group"><label>Destino</label>
+            <input type="text" class="form-control input-sm" id="mf-destino" placeholder="Ex: Maragogi"></div></div>
+          <div class="col-sm-6"><div class="form-group"><label>Operadora Ticketeira</label>
+            <input type="text" class="form-control input-sm" id="mf-operadora" placeholder="Ex: BaladAPP, Sympla"></div></div>
+        </div>
+        <div class="form-group"><label>URL Consulta Preço de Mercado</label>
+          <input type="url" class="form-control input-sm" id="mf-url" placeholder="https://...">
+          <span class="help-block" style="font-size:11px;">Link do site para consultar preços atualizados</span></div>
+        <div class="form-group"><label>Taxa Comissário Padrão</label>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <select class="form-control input-sm" id="mf-comm-tipo" onchange="mfCommTipoChange()" style="width:170px;">
+              <option value="pct">% abaixo do ticket</option>
+              <option value="fixo">R$ fixo abaixo</option>
+            </select>
+            <div class="input-group input-group-sm" id="mf-comm-pct-wrap" style="width:130px;">
+              <input type="number" class="form-control" id="mf-comm" value="5" step="0.5" min="0" max="30">
+              <span class="input-group-addon">%</span>
+            </div>
+            <div class="input-group input-group-sm" id="mf-comm-fixo-wrap" style="width:140px;display:none;">
+              <span class="input-group-addon">R$</span>
+              <input type="number" class="form-control" id="mf-comm-fixo" value="0" step="1" min="0">
+            </div>
+          </div>
+          <span class="help-block" style="font-size:11px;">% = desconto percentual sobre o ticket · R$ fixo = valor fixo descontado do ticket</span></div>
+      </div>
+        <div class="form-group" style="margin-top:10px;">
+          <label>Tipos de Pacote <small class="text-muted">(selecione ao cadastrar lotes e deals)</small></label>
+          <div id="mf-tipos-body" style="margin-bottom:4px;"></div>
+          <button class="btn btn-default btn-xs" onclick="addFestaTipo()"><i class="fa fa-plus"></i> Adicionar Tipo</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" onclick="salvarFesta()"><i class="fa fa-save"></i> Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL LOTE ===== -->
+<div class="modal fade" id="modalLote" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="mlTitulo">Novo Lote</h4>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="ml-id">
+        <input type="hidden" id="ml-festa-id">
+        <div class="row">
+          <div class="col-sm-3"><div class="form-group"><label>Lote *</label>
+            <input type="text" class="form-control input-sm" id="ml-nome" placeholder="Ex: Lote 1"></div></div>
+          <div class="col-sm-3"><div class="form-group"><label>Cenário</label>
+            <input type="text" class="form-control input-sm" id="ml-cenario" placeholder="Ex: Opção A"></div></div>
+          <div class="col-sm-2"><div class="form-group"><label>Sexo</label>
+            <select class="form-control input-sm" id="ml-sexo">
+              <option>Feminino</option><option>Masculino</option><option>Misto</option></select></div></div>
+          <div class="col-sm-2"><div class="form-group"><label>Dias</label>
+            <input type="number" class="form-control input-sm" id="ml-dias" placeholder="5"></div></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6"><div class="form-group"><label>Tipo de Pacote</label>
+            <select class="form-control input-sm" id="ml-tipo-pacote"><option value="">— Tipo de Pacote —</option></select></div></div>
+          <div class="col-sm-2"><div class="form-group"><label>Status</label>
+            <select class="form-control input-sm" id="ml-status">
+              <option>Simulado</option><option>Projetado</option><option>Online</option><option>Offline</option><option>Finalizado</option></select></div></div>
+        </div>
+
+        <div style="background:#f9f9f9;border:1px solid #e8e8e8;border-radius:4px;padding:12px;margin-bottom:10px;">
+          <div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px;">MERCADO</div>
+          <div class="row">
+            <div class="col-sm-4"><div class="form-group"><label>Operadora</label>
+              <input type="text" class="form-control input-sm" id="ml-operadora" placeholder="Ex: BaladAPP"></div></div>
+            <div class="col-sm-4"><div class="form-group"><label>Preço Ticketeira (R$)</label>
+              <input type="number" class="form-control input-sm" id="ml-tick" placeholder="Ex: 4753" oninput="mlCalc()"></div></div>
+            <div class="col-sm-4"><div class="form-group"><label>URL Consulta</label>
+              <div class="input-group input-group-sm">
+                <input type="url" class="form-control" id="ml-url" placeholder="https://...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" onclick="var u=$('#ml-url').val();if(u)window.open(u,'_blank')"><i class="fa fa-external-link"></i></button>
+                </span></div></div></div>
+          </div>
+        </div>
+
+        <div style="background:#f9fff9;border:1px solid #c8e6c9;border-radius:4px;padding:12px;margin-bottom:10px;">
+          <div style="font-size:11px;font-weight:700;color:#388e3c;margin-bottom:8px;">CUSTO &amp; PRECIFICAÇÃO INJOY</div>
+          <div class="row" style="margin-bottom:4px;">
+            <div class="col-sm-7"><div class="form-group" style="margin-bottom:4px;"><label>Lote de Custo <small class="text-muted">(vínculo ao deal)</small></label>
+              <select class="form-control input-sm" id="ml-deal-lote-sel" onchange="mlDealLoteChanged()"><option value="">— manual (sem vínculo) —</option></select></div></div>
+            <div class="col-sm-5" id="ml-deal-custo-info" style="padding-top:20px;font-size:11px;color:#388e3c;font-weight:600;"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3"><div class="form-group"><label>Custo INJOY (R$)</label>
+              <input type="number" class="form-control input-sm" id="ml-custo" placeholder="Ex: 4040" oninput="mlCalc()"></div></div>
+            <div class="col-sm-3"><div class="form-group"><label>Método</label>
+              <select class="form-control input-sm" id="ml-metodo" onchange="mlMetodoChanged();mlCalc();">
+                <option value="valor_abaixo_comissario">R$ abaixo Comissário</option>
+                <option value="percentual_comissario">% abaixo Comissário</option>
+                <option value="manual">Preço Manual</option></select></div></div>
+            <div class="col-sm-3"><div class="form-group"><label id="ml-param-lbl">Parâmetro (R$)</label>
+              <input type="number" class="form-control input-sm" id="ml-param" value="100" oninput="mlCalc()"></div></div>
+            <div class="col-sm-3"><div class="form-group"><label>Preço Manual <small class="text-muted">(sobrescreve)</small></label>
+              <input type="number" class="form-control input-sm" id="ml-manual" placeholder="Vazio = calcular" oninput="mlCalc()"></div></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3"><div class="form-group"><label>Taxa Ticketeira %</label>
+            <input type="number" class="form-control input-sm" id="ml-taxa" value="12" step="0.5" oninput="mlCalc()"></div></div>
+          <div class="col-sm-3"><div class="form-group"><label>Taxa INJOY %</label>
+            <input type="number" class="form-control input-sm" id="ml-taxa-injoy" value="4" step="0.5" oninput="mlCalc()"></div></div>
+          <div class="col-sm-3"><div class="form-group"><label>Custo CC Operadora (%)</label>
+            <input type="number" class="form-control input-sm" id="ml-custo-cc" value="-2.85" step="0.1" oninput="mlCalc()"></div></div>
+          <div class="col-sm-3"><div class="form-group"><label>Estoque (qtd)</label>
+            <input type="number" class="form-control input-sm" id="ml-estoque" value="0" min="0"></div></div>
+        </div>
+
+        <div id="ml-preview" style="display:none;" class="preview-calc">
+          <div style="font-size:11px;font-weight:700;color:#1565c0;margin-bottom:8px;"><i class="fa fa-calculator"></i> Prévia dos Cálculos</div>
+          <div class="row" id="ml-preview-content"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" onclick="salvarLote()"><i class="fa fa-save"></i> Salvar Lote</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL DEAL ===== -->
+<div class="modal fade" id="modalDeal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="mdTitulo">Novo Deal</h4>
+      </div>
+      <div class="modal-body modal-deal-body">
+        <input type="hidden" id="md-id">
+        <div class="row">
+          <div class="col-sm-5"><div class="form-group"><label>Festa *</label>
+            <select class="form-control input-sm" id="md-festa"></select></div></div>
+          <div class="col-sm-5"><div class="form-group"><label>Nome do Deal *</label>
+            <input type="text" class="form-control input-sm" id="md-nome" placeholder="Ex: Réveillon Arcanjos — INJOY"></div></div>
+          <div class="col-sm-2"><div class="form-group"><label>Status</label>
+            <select class="form-control input-sm" id="md-status">
+              <option>Negociação</option><option>Ativo</option><option>Encerrado</option></select></div></div>
+        </div>
+
+        <div style="background:#f9fff9;border:1px solid #c8e6c9;border-radius:4px;padding:12px;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:700;color:#388e3c;margin-bottom:10px;">⓵ FASE 1 — Pacotes Travados</div>
+          <div class="row">
+            <div class="col-sm-4"><div class="form-group"><label>Total de Pacotes Travados</label>
+              <div class="input-group input-group-sm"><input type="number" class="form-control" id="md-f1-qtd" value="0"><span class="input-group-addon"><label style="margin:0;font-weight:normal;"><input type="checkbox" id="md-f1-ilimitado" onchange="toggleF1Ilimitado()"> ∞</label></span></div></div></div>
+            <div class="col-sm-4"><div class="form-group"><label>Cortesia: 1 a cada X pacotes</label>
+              <input type="number" class="form-control input-sm" id="md-f1-cort" value="20"></div></div>
+            <div class="col-sm-4"><div class="form-group"><label>Cortesias Relacionamento (hotéis)</label>
+              <input type="number" class="form-control input-sm" id="md-cort-rel" value="0"></div></div>
+          </div>
+          <label style="font-size:12px;">Lotes da Fase 1:</label>
+          <div id="md-lotes-body" style="margin-bottom:4px;"></div>
+          <button class="btn btn-default btn-xs" style="margin-top:4px;" onclick="addDealLote()"><i class="fa fa-plus"></i> Adicionar Lote</button>
+        </div>
+
+        <div style="background:#f5f9ff;border:1px solid #b8d4f0;border-radius:4px;padding:12px;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:700;color:#1565c0;margin-bottom:10px;">
+            ⓶ FASE 2 — Após esgotamento da Fase 1
+            <label class="checkbox-inline" style="font-weight:normal;margin-left:15px;">
+              <input type="checkbox" id="md-f2-ativa" onchange="toggleFase2()"> Possui Fase 2
+            </label>
+          </div>
+          <div id="md-fase2-campos" style="display:none;">
+            <div class="row">
+              <div class="col-sm-5"><div class="form-group"><label>Tipo da Fase 2</label>
+                <select class="form-control input-sm" id="md-f2-tipo" onchange="toggleFase2Param()">
+                  <option value="lotes_abaixo">X lotes abaixo do vigente</option>
+                  <option value="percentual_comissario">% abaixo do comissário</option>
+                  <option value="manual">Condição manual / livre</option></select></div></div>
+              <div class="col-sm-4" id="md-f2-param-box"><div class="form-group">
+                <label id="md-f2-param-lbl">Nº de lotes abaixo</label>
+                <div class="input-group input-group-sm"><input type="number" class="form-control" id="md-f2-param" value="2"><span class="input-group-addon"><label style="margin:0;font-weight:normal;"><input type="checkbox" id="md-f2-ilimitado"> ∞ Ilimitado</label></span></div></div></div>
+            </div>
+            <div class="form-group"><label>Descrição / Condições</label>
+              <textarea class="form-control input-sm" id="md-f2-desc" rows="2"
+                placeholder="Ex: INJOY vende 2 lotes abaixo do vigente ao preço dos comissários oficiais"></textarea></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4"><div class="form-group"><label>Comissão dos Comissários (%)</label>
+            <input type="number" class="form-control input-sm" id="md-comm" value="5" step="0.5"></div></div>
+          <div class="col-sm-4"><div class="form-group"><label>Diferencial INJOY (%)</label>
+            <input type="number" class="form-control input-sm" id="md-dif" value="10" step="0.5"></div></div>
+        </div>
+
+        <div style="border:1px solid #eee;border-radius:4px;padding:12px;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:700;color:#555;margin-bottom:8px;">CRONOGRAMA DE REPASSE</div>
+          <table class="inline-table">
+            <thead><tr><th>Mês da Compra</th><th>Parcelas (até)</th><th></th></tr></thead>
+            <tbody id="md-repasse-body"></tbody>
+          </table>
+          <button class="btn btn-default btn-xs" style="margin-top:6px;" onclick="addRepasse()"><i class="fa fa-plus"></i> Adicionar Mês</button>
+        </div>
+
+        <div class="form-group"><label>Observação do Custo <small class="text-muted">(racional livre)</small></label>
+          <textarea class="form-control input-sm" id="md-obs-custo" rows="2" placeholder="Ex: Custo = 15% abaixo da ticketeira, baseado em cotação de Out/24"></textarea></div>
+        <div class="form-group"><label>Observações Gerais</label>
+          <textarea class="form-control input-sm" id="md-obs" rows="2"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" onclick="salvarDeal()"><i class="fa fa-save"></i> Salvar Deal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="jquery.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<script>
+
+// ============================================================
+// DADOS PADRÃO (exemplo)
+// ============================================================
+var DADOS_PADRAO = {
+  festas: [
+    {id:1,nome:'Arcanjos', destino:'Maragogi',       operadora:'BaladAPP',    comissao_tipo:'pct',comissao_rate:0.05,comissao_fixo:0, url_consulta:'https://baladapp.com.br', tipos_pacote:['Passaporte Individual']},
+    {id:2,nome:'Destino',  destino:'Praia do Forte',  operadora:'TicketMaker', comissao_tipo:'pct',comissao_rate:0.05,comissao_fixo:0, url_consulta:'', tipos_pacote:['Rio com Mar','Pé na Areia']},
+    {id:3,nome:'Pipa',     destino:'Pipa / RN',       operadora:'BaladAPP',    comissao_tipo:'pct',comissao_rate:0.05,comissao_fixo:0, url_consulta:'https://baladapp.com.br', tipos_pacote:[]},
+    {id:4,nome:'Amoré',    destino:'Porto de Galinhas',operadora:'Sympla',     comissao_tipo:'pct',comissao_rate:0.05,comissao_fixo:0, url_consulta:'https://sympla.com.br', tipos_pacote:[]},
+  ],
+  lotes: [
+    {id:1, festa_id:1,nome_lote:'Lote 1',cenario:'Finalizado', sexo:'Feminino', tipo_pacote:'',dias:5,status:'Finalizado',preco_ticketeira:4753,custo_injoy:4040,metodo_venda:'valor_abaixo_comissario',parametro_venda:100,preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:125},
+    {id:2, festa_id:1,nome_lote:'Lote 1',cenario:'Finalizado', sexo:'Masculino',tipo_pacote:'',dias:5,status:'Finalizado',preco_ticketeira:5070,custo_injoy:4309,metodo_venda:'valor_abaixo_comissario',parametro_venda:100,preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:125},
+    {id:3, festa_id:1,nome_lote:'Lote 3',cenario:'Online',     sexo:'Feminino', tipo_pacote:'',dias:5,status:'Online',    preco_ticketeira:5560,custo_injoy:4040,metodo_venda:'valor_abaixo_comissario',parametro_venda:100,preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:75},
+    {id:4, festa_id:1,nome_lote:'Lote 3',cenario:'Online',     sexo:'Masculino',tipo_pacote:'',dias:5,status:'Online',    preco_ticketeira:5940,custo_injoy:4309,metodo_venda:'valor_abaixo_comissario',parametro_venda:100,preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:75},
+    {id:5, festa_id:1,nome_lote:'Lote 4',cenario:'Simulado A', sexo:'Feminino', tipo_pacote:'',dias:5,status:'Simulado',  preco_ticketeira:5840,custo_injoy:4275,metodo_venda:'valor_abaixo_comissario',parametro_venda:100,preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:0},
+    {id:6, festa_id:1,nome_lote:'Lote 4',cenario:'Simulado A', sexo:'Masculino',tipo_pacote:'',dias:5,status:'Simulado',  preco_ticketeira:6240,custo_injoy:4566,metodo_venda:'valor_abaixo_comissario',parametro_venda:100,preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:0},
+    {id:7, festa_id:2,nome_lote:'Lote 1',cenario:'Finalizado', sexo:'Feminino', tipo_pacote:'Rio com Mar',dias:5,status:'Finalizado',preco_ticketeira:3200,custo_injoy:3040,metodo_venda:'percentual_comissario',  parametro_venda:0,  preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:100},
+    {id:8, festa_id:2,nome_lote:'Lote 1',cenario:'Finalizado', sexo:'Masculino',tipo_pacote:'Rio com Mar',dias:5,status:'Finalizado',preco_ticketeira:3900,custo_injoy:3705,metodo_venda:'percentual_comissario',  parametro_venda:0,  preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:100},
+    {id:9, festa_id:2,nome_lote:'Lote 2',cenario:'Online',     sexo:'Feminino', tipo_pacote:'Pé na Areia',dias:5,status:'Online',    preco_ticketeira:3400,custo_injoy:3040,metodo_venda:'percentual_comissario',  parametro_venda:0,  preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:100},
+    {id:10,festa_id:2,nome_lote:'Lote 2',cenario:'Online',     sexo:'Masculino',tipo_pacote:'Pé na Areia',dias:5,status:'Online',    preco_ticketeira:4400,custo_injoy:3705,metodo_venda:'percentual_comissario',  parametro_venda:0,  preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:100},
+    {id:11,festa_id:3,nome_lote:'Lote 3',cenario:'Online',     sexo:'Feminino', tipo_pacote:'',dias:5,status:'Online',    preco_ticketeira:4850,custo_injoy:4486,metodo_venda:'valor_abaixo_comissario',parametro_venda:100,preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:60},
+    {id:12,festa_id:3,nome_lote:'Lote 3',cenario:'Online',     sexo:'Masculino',tipo_pacote:'',dias:5,status:'Online',    preco_ticketeira:5400,custo_injoy:4995,metodo_venda:'valor_abaixo_comissario',parametro_venda:100,preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:60},
+    {id:13,festa_id:4,nome_lote:'Pré Venda',cenario:'Online',  sexo:'Feminino', tipo_pacote:'',dias:5,status:'Online',    preco_ticketeira:4300,custo_injoy:null,metodo_venda:'percentual_comissario',  parametro_venda:5,  preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:0},
+    {id:14,festa_id:4,nome_lote:'Pré Venda',cenario:'Simulado',sexo:'Feminino', tipo_pacote:'',dias:5,status:'Simulado',  preco_ticketeira:4300,custo_injoy:3978,metodo_venda:'valor_abaixo_comissario',parametro_venda:100,preco_venda_manual:null,taxa_servico:0.12,taxa_injoy:0.04,custo_cc_operadora:-0.0285,estoque_qtd:0},
+  ],
+  deals: [
+    {id:1,festa_id:1,festa_nome:'Arcanjos',nome:'Réveillon Arcanjos — INJOY',status:'Ativo',comissao_rate:0.05,diferencial_injoy_rate:0.10,fase1_qtd_total:600,fase1_ilimitado:false,fase1_cortesia_regra:20,fase2_ativa:0,fase2_tipo:'sem_fase2',fase2_lotes_abaixo:2,fase2_ilimitado:false,fase2_descricao:'',cortesias_relacionamento:16,observacoes:'8 casais para hotéis/pousadas parceiras',obs_custo:'',
+      lotes:[
+        {nome_lote:'Lote 1',qtd_travada:250,cortesias_lote:12,variacoes:[{tipo_pacote:'',dias:null,custo_tipo:'fixo',custo_fem:4039.88,custo_masc:4309.20,qtd_individual:null}]},
+        {nome_lote:'Lote 2',qtd_travada:200,cortesias_lote:10,variacoes:[{tipo_pacote:'',dias:null,custo_tipo:'fixo',custo_fem:4275,custo_masc:4565.70,qtd_individual:null}]},
+        {nome_lote:'Lote 3',qtd_travada:150,cortesias_lote:7, variacoes:[{tipo_pacote:'',dias:null,custo_tipo:'fixo',custo_fem:4514.40,custo_masc:4822.20,qtd_individual:null}]}
+      ],
+      repasse:[{mes:'Maio',parcelas_max:6},{mes:'Junho',parcelas_max:5},{mes:'Julho',parcelas_max:4},{mes:'Agosto a Outubro',parcelas_max:3}]},
+    {id:2,festa_id:2,festa_nome:'Destino',nome:'Réveillon Destino — INJOY',status:'Ativo',comissao_rate:0.05,diferencial_injoy_rate:0.05,fase1_qtd_total:200,fase1_ilimitado:false,fase1_cortesia_regra:15,fase2_ativa:1,fase2_tipo:'lotes_abaixo',fase2_lotes_abaixo:2,fase2_ilimitado:false,fase2_descricao:'Após sold out dos 200 pacotes, INJOY continua vendendo 2 lotes abaixo do vigente ao preço dos comissários oficiais.',cortesias_relacionamento:0,observacoes:'',obs_custo:'',
+      lotes:[
+        {nome_lote:'Lote 1',qtd_travada:100,cortesias_lote:6,variacoes:[
+          {tipo_pacote:'Rio com Mar',dias:5,custo_tipo:'fixo',custo_fem:3040,custo_masc:3705,qtd_individual:null},
+          {tipo_pacote:'Rio com Mar',dias:6,custo_tipo:'fixo',custo_fem:3230,custo_masc:3895,qtd_individual:null}
+        ]},
+        {nome_lote:'Lote 2',qtd_travada:100,cortesias_lote:6,variacoes:[
+          {tipo_pacote:'Pé na Areia',dias:5,custo_tipo:'fixo',custo_fem:3230,custo_masc:4180,qtd_individual:null},
+          {tipo_pacote:'Pé na Areia',dias:6,custo_tipo:'fixo',custo_fem:3420,custo_masc:4370,qtd_individual:null}
+        ]}
+      ],
+      repasse:[{mes:'Maio',parcelas_max:6},{mes:'Junho',parcelas_max:5},{mes:'Agosto a Outubro',parcelas_max:3}]},
+  ],
+  estoque: [
+    {id:201,deal_id:1,deal_nome:'Reveillon Arcanjos - INJOY',festa_nome:'Arcanjos',nome_lote:'Lote 1',capacidade:250,ilimitado:false,vendido_fem:98,vendido_masc:102,cortesia:5,cortesia_conta_estoque:false,cortesia_auto:true},
+    {id:202,deal_id:1,deal_nome:'Reveillon Arcanjos - INJOY',festa_nome:'Arcanjos',nome_lote:'Lote 2',capacidade:200,ilimitado:false,vendido_fem:0,vendido_masc:0,cortesia:0,cortesia_conta_estoque:false,cortesia_auto:true},
+    {id:203,deal_id:1,deal_nome:'Reveillon Arcanjos - INJOY',festa_nome:'Arcanjos',nome_lote:'Lote 3',capacidade:150,ilimitado:false,vendido_fem:31,vendido_masc:28,cortesia:2,cortesia_conta_estoque:false,cortesia_auto:true},
+    {id:204,deal_id:2,deal_nome:'Reveillon Destino - INJOY',festa_nome:'Destino',nome_lote:'Lote 1',capacidade:100,ilimitado:false,vendido_fem:52,vendido_masc:48,cortesia:6,cortesia_conta_estoque:false,cortesia_auto:true},
+    {id:205,deal_id:2,deal_nome:'Reveillon Destino - INJOY',festa_nome:'Destino',nome_lote:'Lote 2',capacidade:100,ilimitado:false,vendido_fem:44,vendido_masc:39,cortesia:2,cortesia_conta_estoque:false,cortesia_auto:true},
+  ],
+  nextId: 100
+};
+
+// ============================================================
+// STORAGE — tudo protegido contra falha de localStorage
+// ============================================================
+var _LS = (function(){
+  try{ window.localStorage.setItem('_t','1'); window.localStorage.removeItem('_t'); return window.localStorage; }
+  catch(e){ return {getItem:function(){return null;},setItem:function(){},removeItem:function(){}}; }
+})();
+function carregar(k,def){ try{var v=_LS.getItem('pf2_'+k);return v!==null?JSON.parse(v):def;}catch(e){return def;} }
+function salvar(k,v){ try{_LS.setItem('pf2_'+k,JSON.stringify(v));}catch(e){} }
+function resetarDados(){
+  if(!confirm('Voltar para os dados de exemplo?'))return;
+  try{['festas','lotes','deals','estoque','nextId','version'].forEach(function(k){_LS.removeItem('pf2_'+k);});}catch(e){}
+  location.reload();
+}
+// Primeira vez ou versão antiga: carrega dados padrão
+try{
+  if(_LS.getItem('pf2_version') !== 'v5'){
+    salvar('festas',  JSON.parse(JSON.stringify(DADOS_PADRAO.festas)));
+    salvar('lotes',   JSON.parse(JSON.stringify(DADOS_PADRAO.lotes)));
+    salvar('deals',   JSON.parse(JSON.stringify(DADOS_PADRAO.deals)));
+    salvar('estoque', JSON.parse(JSON.stringify(DADOS_PADRAO.estoque)));
+    salvar('nextId',  DADOS_PADRAO.nextId);
+    _LS.setItem('pf2_version','v5');
+  }
+}catch(e){}
+var FESTAS  = carregar('festas',  JSON.parse(JSON.stringify(DADOS_PADRAO.festas)));
+var LOTES   = carregar('lotes',   JSON.parse(JSON.stringify(DADOS_PADRAO.lotes)));
+var DEALS   = carregar('deals',   JSON.parse(JSON.stringify(DADOS_PADRAO.deals)));
+var ESTOQUE = carregar('estoque', JSON.parse(JSON.stringify(DADOS_PADRAO.estoque)));
+var nextId  = carregar('nextId',  DADOS_PADRAO.nextId);
+
+function novoId(){ nextId++; salvar('nextId',nextId); return nextId; }
+function getFesta(id){ return FESTAS.find(function(f){return f.id==id;})||{}; }
+
+// ============================================================
+// CÁLCULOS
+// ============================================================
+function calc(tick,custo,commRate,taxaTick,taxaInjoy,custoCc,metodo,param,manual){
+  tick=+tick||0;custo=+custo||0;commRate=+commRate||5;taxaTick=+taxaTick||12;taxaInjoy=+taxaInjoy||4;custoCc=+custoCc||-2.85;
+  var tt=taxaTick/100,ti=taxaInjoy/100,cc=custoCc/100,cr=commRate/100;
+  var tickBase=tick,tickFinal=tick*(1+tt);
+  var commBase=tick*(1-cr),commFinal=commBase*(1+tt);
+  var gordura=commFinal-custo;
+  param=+param||0;manual=+manual||0;
+  var injoyBase=manual>0?manual:metodo==='percentual_comissario'?commBase*(1-param/100):metodo==='valor_abaixo_comissario'?commBase-param:manual;
+  var injoyFinal=injoyBase*(1+ti);
+  var mgBase=injoyBase-custo;
+  var mgFinal=injoyFinal*(1+cc)-custo;
+  var mgAtual=injoyBase>0?mgBase/injoyBase:0;
+  var pctGordMg=gordura>0?mgBase/gordura:0;
+  var potMgComm=commBase>0?(commBase-custo)/commBase:0;
+  var potMgTick=tick>0?(tick-custo)/tick:0;
+  return {tickBase:tickBase,tickFinal:tickFinal,commBase:commBase,commFinal:commFinal,gordura:gordura,injoyBase:injoyBase,injoyFinal:injoyFinal,mgBase:mgBase,mgFinal:mgFinal,mgAtual:mgAtual,pctGordMg:pctGordMg,potMgComm:potMgComm,potMgTick:potMgTick};
+}
+function calcLote(l){
+  var f=getFesta(l.festa_id);
+  var commRate;
+  if(f.comissao_tipo==='fixo'){
+    var tick=l.preco_ticketeira||0;
+    commRate=tick>0?(f.comissao_fixo||0)/tick*100:0;
+  } else {
+    commRate=(f.comissao_rate||0.05)*100;
+  }
+  return calc(l.preco_ticketeira,l.custo_injoy,commRate,(l.taxa_servico||0.12)*100,(l.taxa_injoy||0.04)*100,(l.custo_cc_operadora||-0.0285)*100,l.metodo_venda,l.parametro_venda,l.preco_venda_manual);
+}
+function R(v){return 'R$ '+(+v||0).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function P(v){return((+v||0)*100).toFixed(1)+'%';}
+function corMg(v){return v>=0.15?'mg-good':v>=0.05?'mg-ok':'mg-bad';}
+function corCell(v){return v>=0.15?'mg-cell-good':v>=0.05?'mg-cell-ok':'mg-cell-bad';}
+function esc(s){return $('<div>').text(s||'').html();}
+
+// ============================================================
+// TAB 1: FESTAS & LOTES
+// ============================================================
+function renderFestas(){
+  if(!FESTAS.length){$('#lista-festas').html('<div class="empty-state"><i class="fa fa-calendar-o fa-3x"></i><p style="margin-top:10px;">Nenhuma festa cadastrada. Clique em <b>Nova Festa</b>.</p></div>');return;}
+  var html='';
+  FESTAS.forEach(function(f){
+    var _statusOrd={Finalizado:0,Online:1,Simulado:2,Projetado:3,Offline:4};
+    var lfs=LOTES.filter(function(l){return l.festa_id==f.id;}).sort(function(a,b){return(_statusOrd[a.status]||9)-(_statusOrd[b.status]||9);});
+    html+='<div class="festa-card"><div class="festa-header" onclick="toggleFesta('+f.id+')">';
+    html+='<div><h4><i class="fa fa-calendar-o" style="color:#e8a000;margin-right:6px;"></i>'+esc(f.nome)+'</h4>';
+    html+='<div class="festa-meta">'+[f.destino,f.operadora].filter(Boolean).join(' · ');
+    if(f.url_consulta)html+=' &nbsp;<a href="'+esc(f.url_consulta)+'" target="_blank" onclick="event.stopPropagation()" style="font-size:11px;"><i class="fa fa-external-link"></i> Consultar preço</a>';
+    html+='</div></div>';
+    html+='<div style="display:flex;gap:8px;align-items:center;">';
+    var commLabel=f.comissao_tipo==='fixo'?'R$ '+(f.comissao_fixo||0).toFixed(0)+' fixo':(f.comissao_rate*100).toFixed(0)+'%';
+    html+='<span style="font-size:11px;color:#999;">Comissário: '+commLabel+' · '+lfs.length+' lote(s)</span>';
+    html+='<button class="btn btn-default btn-xs" onclick="event.stopPropagation();abrirModalFesta('+f.id+')"><i class="fa fa-pencil"></i></button>';
+    html+='<button class="btn btn-danger btn-xs" onclick="event.stopPropagation();excluirFesta('+f.id+')"><i class="fa fa-trash"></i></button>';
+    html+='<i class="fa fa-chevron-down text-muted" id="ico-'+f.id+'"></i>';
+    html+='</div></div>';
+    html+='<div class="festa-body" id="body-festa-'+f.id+'" style="display:none;">';
+    html+='<div style="margin-bottom:10px;"><button class="btn btn-success btn-xs" onclick="abrirModalLote('+f.id+')"><i class="fa fa-plus"></i> Novo Lote</button></div>';
+    if(!lfs.length){html+='<div class="text-muted" style="font-size:12px;padding:6px 0;">Nenhum lote cadastrado ainda.</div>';}
+    else{
+      html+='<div style="overflow-x:auto;"><table class="table table-condensed table-bordered" style="font-size:11px;margin-bottom:0;white-space:nowrap;">';
+      html+='<thead>';
+      html+='<tr style="text-align:center;font-size:10px;color:#555;font-weight:700;">';
+      html+='<th colspan="2" style="background:#f0f0f0;border-right:2px solid #bbb;"></th>';
+      html+='<th colspan="2" style="background:#f0f0f0;">Ticketeira</th>';
+      html+='<th colspan="2" style="background:#fff8d6;color:#7a5800;">Comissário</th>';
+      html+='<th colspan="3" style="background:#dbeeff;color:#1a5a9a;">INJOY — Meu Preço</th>';
+      html+='<th colspan="2" style="background:#d6f5e0;color:#1a6b35;border-left:2px solid #8ed4a8;">Minha Margem</th>';
+      html+='<th colspan="4" style="background:#ffe8e8;color:#992222;border-left:2px solid #f5c0c0;">Gordura vs Custo — 4 análises</th>';
+      html+='<th style="background:#f0f0f0;"></th>';
+      html+='</tr>';
+      html+='<tr style="background:#f8f8f8;">';
+      html+='<th style="min-width:90px;">Lote</th>';
+      html+='<th style="min-width:130px;border-right:2px solid #bbb;">Sexo · Tipo · Dias</th>';
+      html+='<th class="text-right" style="min-width:72px;">Tick Base</th>';
+      html+='<th class="text-right" style="min-width:72px;">Tick Final</th>';
+      html+='<th class="text-right" style="min-width:72px;background:#fffbea;">Comm Base</th>';
+      html+='<th class="text-right" style="min-width:72px;background:#fffbea;">Comm Final</th>';
+      html+='<th class="text-right" style="min-width:68px;background:#eaf5ff;">IJ Custo</th>';
+      html+='<th class="text-right" style="min-width:72px;background:#eaf5ff;"><b>INJOY Base</b></th>';
+      html+='<th class="text-right" style="min-width:72px;background:#eaf5ff;">INJOY Final</th>';
+      html+='<th class="text-right" style="min-width:68px;background:#e8f8ee;border-left:2px solid #8ed4a8;" title="Margem em R$ = INJOY Base − Custo">Mg R$</th>';
+      html+='<th class="text-right" style="min-width:52px;background:#e8f8ee;" title="Margem % = Mg / INJOY Base">Mg %</th>';
+      html+='<th class="text-right" style="min-width:68px;background:#fff0f0;border-left:2px solid #f5c0c0;" title="Comm Base − Custo">vs CommB</th>';
+      html+='<th class="text-right" style="min-width:68px;background:#fff0f0;" title="Comm Final − Custo">vs CommF</th>';
+      html+='<th class="text-right" style="min-width:68px;background:#fff0f0;" title="Ticketeira Base − Custo">vs TickB</th>';
+      html+='<th class="text-right" style="min-width:68px;background:#fff0f0;" title="Ticketeira Final (c/ taxa) − Custo">vs TickF</th>';
+      html+='<th></th>';
+      html+='</tr></thead><tbody>';
+      lfs.forEach(function(l){
+        var c=calcLote(l),hC=l.custo_injoy>0,hT=l.preco_ticketeira>0;
+        var gordCommB=c.commBase-l.custo_injoy;
+        var gordCommF=c.gordura;
+        var gordTickB=l.preco_ticketeira-l.custo_injoy;
+        var gordTickF=c.tickFinal-l.custo_injoy;
+        html+='<tr>';
+        html+='<td><b>'+esc(l.nome_lote)+'</b>';
+        if(l.cenario)html+=' <span style="color:#bbb;font-style:italic;font-size:10px;">'+esc(l.cenario)+'</span>';
+        html+=' <span class="lote-status st-'+l.status+'" style="font-size:10px;padding:1px 5px;">'+l.status+'</span></td>';
+        html+='<td style="color:#555;border-right:2px solid #bbb;">'+esc(l.sexo)+(l.tipo_pacote?' · <b>'+esc(l.tipo_pacote)+'</b>':'')+(l.dias?' · '+l.dias+'d':'')+'</td>';
+        if(!hT){
+          html+='<td colspan="13" class="text-muted" style="font-style:italic;">Sem preço de ticketeira</td>';
+        }else{
+          html+='<td class="text-right">'+R(l.preco_ticketeira)+'</td>';
+          html+='<td class="text-right">'+R(c.tickFinal)+'</td>';
+          if(!hC){
+            html+='<td colspan="11" class="text-muted" style="font-style:italic;">Custo não informado</td>';
+          }else{
+            html+='<td class="text-right" style="background:#fffde8;">'+R(c.commBase)+'</td>';
+            html+='<td class="text-right" style="background:#fffde8;">'+R(c.commFinal)+'</td>';
+            html+='<td class="text-right" style="background:#e8f4ff;">'+R(l.custo_injoy)+'</td>';
+            html+='<td class="text-right" style="background:#e8f4ff;"><b>'+R(c.injoyBase)+'</b></td>';
+            html+='<td class="text-right" style="background:#e8f4ff;">'+R(c.injoyFinal)+'</td>';
+            html+='<td class="text-right '+corMg(c.mgAtual)+'" style="background:#edfaf3;border-left:2px solid #8ed4a8;"><b>'+R(c.mgBase)+'</b></td>';
+            html+='<td class="text-right '+corMg(c.mgAtual)+'" style="background:#edfaf3;">'+P(c.mgAtual)+'</td>';
+            html+='<td class="text-right '+corMg(c.potMgComm)+'" style="background:#fff5f5;border-left:2px solid #f5c0c0;">'+R(gordCommB)+'</td>';
+            html+='<td class="text-right '+corMg(c.commFinal>0?gordCommF/c.commFinal:0)+'" style="background:#fff5f5;">'+R(gordCommF)+'</td>';
+            html+='<td class="text-right '+corMg(c.potMgTick)+'" style="background:#fff5f5;">'+R(gordTickB)+'</td>';
+            html+='<td class="text-right '+corMg(c.tickFinal>0?gordTickF/c.tickFinal:0)+'" style="background:#fff5f5;">'+R(gordTickF)+'</td>';
+          }
+        }
+        html+='<td style="white-space:nowrap;">';
+        if(l.url_consulta)html+='<a href="'+esc(l.url_consulta)+'" target="_blank" class="btn btn-default btn-xs" title="Consultar mercado" style="margin-right:2px;"><i class="fa fa-external-link"></i></a>';
+        html+='<button class="btn btn-primary btn-xs" onclick="abrirModalLote('+f.id+','+l.id+')" style="margin-right:2px;"><i class="fa fa-pencil"></i></button>';
+        html+='<button class="btn btn-danger btn-xs" onclick="excluirLote('+l.id+','+f.id+')"><i class="fa fa-trash"></i></button>';
+        html+='</td></tr>';
+      });
+      html+='</tbody></table></div>';
+    }
+    html+='</div></div>';
+  });
+  $('#lista-festas').html(html);
+  atualizarSelects();
+}
+
+function toggleFesta(id){
+  var body=$('#body-festa-'+id),ico=$('#ico-'+id);
+  if(body.is(':visible')){body.slideUp(150);ico.removeClass('fa-chevron-up').addClass('fa-chevron-down');}
+  else{body.slideDown(150);ico.removeClass('fa-chevron-down').addClass('fa-chevron-up');}
+}
+
+// MODAL FESTA
+function abrirModalFesta(id){
+  var f=id?getFesta(id):{};
+  $('#mf-id').val(f.id||'');$('#mf-nome').val(f.nome||'');$('#mf-destino').val(f.destino||'');
+  $('#mf-operadora').val(f.operadora||'');$('#mf-url').val(f.url_consulta||'');
+  var cTipo=f.comissao_tipo||'pct';
+  $('#mf-comm-tipo').val(cTipo);
+  $('#mf-comm').val(f.comissao_rate?(f.comissao_rate*100).toFixed(1):5);
+  $('#mf-comm-fixo').val(f.comissao_fixo||0);
+  mfCommTipoChange();
+  $('#mf-tipos-body').html('');(f.tipos_pacote||[]).forEach(addFestaTipo);
+  $('#mfTitulo').text(f.id?'Editar Festa':'Nova Festa');
+  $('#modalFesta').modal('show');
+}
+function salvarFesta(){
+  var nome=$('#mf-nome').val().trim();if(!nome){alert('Informe o nome.');return;}
+  var id=+$('#mf-id').val()||0;
+  var tiposPacote=[];$('#mf-tipos-body .ft-nome').each(function(){var v=$(this).val().trim();if(v)tiposPacote.push(v);});
+  var obj={id:id||novoId(),nome:nome,destino:$('#mf-destino').val(),
+    operadora:$('#mf-operadora').val(),url_consulta:$('#mf-url').val(),
+    comissao_tipo:$('#mf-comm-tipo').val(),
+    comissao_rate:+$('#mf-comm').val()/100,
+    comissao_fixo:+$('#mf-comm-fixo').val()||0,
+    tipos_pacote:tiposPacote};
+  if(id){FESTAS=FESTAS.map(function(f){return f.id==id?obj:f;});}
+  else{FESTAS.push(obj);}
+  salvar('festas',FESTAS);$('#modalFesta').modal('hide');renderFestas();
+}
+function mfCommTipoChange(){
+  var tipo=$('#mf-comm-tipo').val();
+  $('#mf-comm-pct-wrap').toggle(tipo==='pct');
+  $('#mf-comm-fixo-wrap').toggle(tipo==='fixo');
+}
+function addFestaTipo(t){
+  var html='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">'
+    +'<input type="text" class="form-control input-sm ft-nome" placeholder="Ex: Rio com Mar, Pé na Areia..." value="'+esc(t||'')+'" style="max-width:260px;">'
+    +'<button class="btn btn-danger btn-xs" onclick="$(this).closest(\'div\').remove()"><i class="fa fa-times"></i></button>'
+    +'</div>';
+  $('#mf-tipos-body').append(html);
+}
+function getFestaTipos(festaId){var f=getFesta(festaId);return f.tipos_pacote||[];}
+function buildTipoOptions(festaId,cur){
+  var tipos=getFestaTipos(festaId),html='<option value="">— Tipo de Pacote —</option>';
+  tipos.forEach(function(t){html+='<option value="'+esc(t)+'"'+(cur===t?' selected':'')+'>'+esc(t)+'</option>';});
+  if(cur&&tipos.indexOf(cur)===-1&&cur!=='')html+='<option value="'+esc(cur)+'" selected>'+esc(cur)+'</option>';
+  return html;
+}
+function excluirFesta(id){
+  if(!confirm('Excluir esta festa e todos os lotes?'))return;
+  FESTAS=FESTAS.filter(function(f){return f.id!=id;});
+  LOTES=LOTES.filter(function(l){return l.festa_id!=id;});
+  salvar('festas',FESTAS);salvar('lotes',LOTES);renderFestas();
+}
+
+// MODAL LOTE
+function abrirModalLote(festaId,loteId){
+  var l=loteId?LOTES.find(function(x){return x.id==loteId;})||{}:{};
+  var f=getFesta(festaId);
+  $('#ml-id').val(l.id||'');$('#ml-festa-id').val(festaId);
+  $('#ml-nome').val(l.nome_lote||'');$('#ml-cenario').val(l.cenario||'');
+  $('#ml-sexo').val(l.sexo||'Feminino');$('#ml-dias').val(l.dias||'');
+  $('#ml-status').val(l.status||'Simulado');$('#ml-operadora').val(l.operadora||f.operadora||'');
+  $('#ml-url').val(l.url_consulta||f.url_consulta||'');
+  $('#ml-tick').val(l.preco_ticketeira||'');$('#ml-custo').val(l.custo_injoy||'');
+  $('#ml-metodo').val(l.metodo_venda||'valor_abaixo_comissario');$('#ml-param').val(l.parametro_venda!=null?l.parametro_venda:100);
+  $('#ml-manual').val(l.preco_venda_manual||'');
+  $('#ml-taxa').val(l.taxa_servico!=null?(l.taxa_servico*100).toFixed(2):12);
+  $('#ml-taxa-injoy').val(l.taxa_injoy!=null?(l.taxa_injoy*100).toFixed(2):4);
+  $('#ml-custo-cc').val(l.custo_cc_operadora!=null?(l.custo_cc_operadora*100).toFixed(2):-2.85);
+  $('#ml-estoque').val(l.estoque_qtd||0);
+  $('#ml-tipo-pacote').html(buildTipoOptions(festaId,l.tipo_pacote||''));
+  // Popula seletor de lote de custo
+  var sexoAtual=l.sexo||'Feminino';
+  var $dls=$('#ml-deal-lote-sel').html('<option value="">— manual (sem vínculo) —</option>');
+  DEALS.filter(function(d){return d.festa_id==festaId;}).forEach(function(d){
+    (d.lotes||[]).forEach(function(dl){
+      var hint='';
+      if(dl.variacoes&&dl.variacoes.length){
+        var v=dl.variacoes[0];
+        if(v){var c=sexoAtual==='Masculino'?(v.custo_masc||v.custo_fem):(v.custo_fem||v.custo_masc);if(c)hint=' ('+R(c)+(dl.variacoes.length>1?'…':'')+')';}
+      }else{var custo=sexoAtual==='Masculino'?(dl.custo_masc||dl.custo_fem):(dl.custo_fem||dl.custo_masc);hint=custo?' ('+R(custo)+')':'';}
+      $dls.append('<option value="'+d.id+'|'+dl.nome_lote+'">'+esc(d.nome)+' — '+esc(dl.nome_lote)+hint+'</option>');
+    });
+  });
+  var curLink=l.deal_lote_link||null;
+  if(curLink){$dls.val(curLink.deal_id+'|'+curLink.nome_lote);}
+  mlDealLoteChanged(false);
+  $('#mlTitulo').text((l.id?'Editar':'Novo')+' Lote — '+esc(f.nome||''));
+  mlMetodoChanged();mlCalc();$('#modalLote').modal('show');
+}
+function mlDealLoteChanged(autoFill){
+  var val=$('#ml-deal-lote-sel').val();
+  if(!val){$('#ml-deal-custo-info').text('');return;}
+  var idx=val.indexOf('|');
+  var dealId=+val.substring(0,idx);
+  var loteName=val.substring(idx+1);
+  var deal=DEALS.find(function(d){return d.id===dealId;});
+  if(!deal){$('#ml-deal-custo-info').text('');return;}
+  var dl=(deal.lotes||[]).find(function(x){return x.nome_lote===loteName;});
+  if(!dl){$('#ml-deal-custo-info').text('');return;}
+  var sexo=$('#ml-sexo').val(),tp=$('#ml-tipo-pacote').val()||'',dias=+$('#ml-dias').val()||null;
+  var custo,info;
+  if(dl.variacoes&&dl.variacoes.length){
+    var v=null;
+    if(tp&&dias)v=dl.variacoes.find(function(x){return x.tipo_pacote===tp&&x.dias==dias;});
+    if(!v&&tp)v=dl.variacoes.find(function(x){return x.tipo_pacote===tp;});
+    if(!v&&dias)v=dl.variacoes.find(function(x){return x.dias==dias;});
+    if(!v)v=dl.variacoes[0];
+    if(v){
+      custo=sexo==='Masculino'?(v.custo_masc||v.custo_fem):(v.custo_fem||v.custo_masc);
+      var vtxt=(v.tipo_pacote||'')+(v.dias?' '+v.dias+'d':'');
+      info=(vtxt?'['+vtxt+'] ':'')+'Fem: '+(v.custo_fem?R(v.custo_fem):'—')+' · Masc: '+(v.custo_masc?R(v.custo_masc):'—');
+    }else{info='—';custo=null;}
+  }else{
+    custo=sexo==='Masculino'?(dl.custo_masc||dl.custo_fem):(dl.custo_fem||dl.custo_masc);
+    info='Fem: '+(dl.custo_fem?R(dl.custo_fem):'—')+' · Masc: '+(dl.custo_masc?R(dl.custo_masc):'—');
+  }
+  $('#ml-deal-custo-info').text(info);
+  if(autoFill!==false&&custo){$('#ml-custo').val(custo.toFixed(2));mlCalc();}
+}
+function mlMetodoChanged(){
+  var m=$('#ml-metodo').val();
+  $('#ml-param-lbl').text(m==='percentual_comissario'?'Parâmetro (%)':m==='manual'?'Preço Boleto (R$)':'Parâmetro (R$)');
+}
+function mlCalc(){
+  var festaId=$('#ml-festa-id').val(),f=getFesta(festaId);
+  var tick=$('#ml-tick').val(),custo=$('#ml-custo').val();
+  if(!tick){$('#ml-preview').hide();return;}
+  var commRate;
+  if(f.comissao_tipo==='fixo'){
+    commRate=(+tick)>0?(f.comissao_fixo||0)/(+tick)*100:0;
+  } else {
+    commRate=(f.comissao_rate||0.05)*100;
+  }
+  var c=calc(tick,custo,commRate,$('#ml-taxa').val(),$('#ml-taxa-injoy').val(),$('#ml-custo-cc').val(),$('#ml-metodo').val(),$('#ml-param').val(),$('#ml-manual').val());
+  var cols=[['Tick.Final',R(c.tickFinal)],['Comm. Base',R(c.commBase)],['Comm.Final',R(c.commFinal)],
+    ['Gordura',R(c.gordura)],['INJOY Base','<b>'+R(c.injoyBase)+'</b>'],['INJOY Final',R(c.injoyFinal)],
+    ['Mg Base',R(c.mgBase)],['Mg Final',R(c.mgFinal)],['Mg % Atual',P(c.mgAtual)],
+    ['%Gord→Mg',P(c.pctGordMg)],['Pot.Mg Comm',P(c.potMgComm)],['Pot.Mg Tick',P(c.potMgTick)]];
+  var html='';
+  cols.forEach(function(col){html+='<div class="col-sm-3" style="margin-bottom:6px;"><div style="font-size:10px;color:#888;">'+col[0]+'</div><div style="font-size:13px;">'+col[1]+'</div></div>';});
+  $('#ml-preview-content').html(html);$('#ml-preview').show();
+}
+function salvarLote(){
+  var nome=$('#ml-nome').val().trim();if(!nome){alert('Informe o nome do lote.');return;}
+  var id=+$('#ml-id').val()||0;
+  var obj={id:id||novoId(),festa_id:+$('#ml-festa-id').val(),nome_lote:nome,
+    cenario:$('#ml-cenario').val(),sexo:$('#ml-sexo').val(),tipo_pacote:$('#ml-tipo-pacote').val(),dias:+$('#ml-dias').val()||null,
+    status:$('#ml-status').val(),operadora:$('#ml-operadora').val(),url_consulta:$('#ml-url').val(),
+    preco_ticketeira:+$('#ml-tick').val()||null,custo_injoy:+$('#ml-custo').val()||null,
+    metodo_venda:$('#ml-metodo').val(),parametro_venda:+$('#ml-param').val()||0,
+    preco_venda_manual:+$('#ml-manual').val()||null,
+    taxa_servico:+$('#ml-taxa').val()/100,taxa_injoy:+$('#ml-taxa-injoy').val()/100,custo_cc_operadora:+$('#ml-custo-cc').val()/100,
+    estoque_qtd:+$('#ml-estoque').val()||0,
+    deal_lote_link:(function(){var v=$('#ml-deal-lote-sel').val();if(!v)return null;var i=v.indexOf('|');return{deal_id:+v.substring(0,i),nome_lote:v.substring(i+1)};})()};
+  if(id){LOTES=LOTES.map(function(l){return l.id==id?obj:l;});}
+  else{LOTES.push(obj);}
+  salvar('lotes',LOTES);$('#modalLote').modal('hide');renderFestas();
+}
+function excluirLote(id,festaId){
+  if(!confirm('Excluir este lote?'))return;
+  LOTES=LOTES.filter(function(l){return l.id!=id;});
+  salvar('lotes',LOTES);renderFestas();
+  if($('#body-festa-'+festaId).is(':visible'))toggleFesta(festaId),toggleFesta(festaId);
+}
+
+// ============================================================
+// TAB 2: ANÁLISE
+// ============================================================
+var _sortCol=null,_sortDir=1;
+function sortAnalise(col){if(_sortCol===col){_sortDir=-_sortDir;}else{_sortCol=col;_sortDir=1;}filtrarAnalise();}
+function getMultiFilter(cls){var v=[];$('.'+cls+':checked').each(function(){v.push($(this).val());});return v;}
+function getFestasFilter(){return getMultiFilter('f-festa-cb');}
+function updateMenuLabel(lid,vals,empty){$('#'+lid).text(vals.length===0?empty:vals.length===1?vals[0]:vals.length+' selecionados');}
+function buildMenu(mid,cls,vals,cur,lid,empty,oc){
+  var $m=$('#'+mid).html('');
+  vals.forEach(function(v){$m.append('<li><label style="font-weight:normal;margin:2px 0;cursor:pointer;display:block;"><input type="checkbox" class="'+cls+'" value="'+esc(v)+'"'+(cur.indexOf(v)!==-1?' checked':'')+' onchange="'+oc+'"> '+esc(v)+'</label></li>');});
+  updateMenuLabel(lid,cur,empty);
+}
+function atualizarLabelFesta(){var v=getFestasFilter();$('#f-festa-lbl').text(v.length===0?'Todas':v.length===1?v[0]:v.length+' selecionadas');}
+function dlGetCusto(dl,l){
+  if(dl.variacoes&&dl.variacoes.length){
+    var tp=l.tipo_pacote||'',dias=l.dias||null,v=null;
+    if(tp&&dias)v=dl.variacoes.find(function(x){return x.tipo_pacote===tp&&x.dias==dias;});
+    if(!v&&tp)v=dl.variacoes.find(function(x){return x.tipo_pacote===tp;});
+    if(!v&&dias)v=dl.variacoes.find(function(x){return x.dias==dias;});
+    if(!v)v=dl.variacoes[0];
+    return v?(l.sexo==='Masculino'?(v.custo_masc||v.custo_fem):(v.custo_fem||v.custo_masc))||null:null;
+  }
+  return(l.sexo==='Masculino'?(dl.custo_masc||dl.custo_fem):(dl.custo_fem||dl.custo_masc))||null;
+}
+function getDealLoteInfo(l){
+  var info={txt:'',custo:null,isAuto:false},dlnk=l.deal_lote_link||null;
+  if(dlnk){
+    var deal=DEALS.find(function(d){return d.id==dlnk.deal_id;});
+    if(deal){var dl=(deal.lotes||[]).find(function(x){return x.nome_lote===dlnk.nome_lote;});
+      if(dl){info.txt=deal.nome+' — '+dl.nome_lote;info.custo=dlGetCusto(dl,l);return info;}}
+  }
+  var df=DEALS.filter(function(d){return d.festa_id===l.festa_id;});
+  df.sort(function(a,b){return(a.status==='Ativo'?-1:b.status==='Ativo'?1:0);});
+  for(var i=0;i<df.length;i++){var dA=df[i],dlA=(dA.lotes||[]).find(function(x){return x.nome_lote===l.nome_lote;});
+    if(dlA){info.txt=dA.nome+' — '+dlA.nome_lote;info.custo=dlGetCusto(dlA,l);info.isAuto=true;return info;}}
+  return info;
+}
+function renderAnalise(){filtrarAnalise();}
+function filtrarAnalise(){
+  var festas=getFestasFilter(),statuses=getMultiFilter('f-status-cb'),sexos=getMultiFilter('f-sexo-cb'),lotes=getMultiFilter('f-lote-cb'),tipoPacotes=getMultiFilter('f-tipopacote-cb'),lcBusca=($('#f-lotecusto').val()||'').toLowerCase().trim();
+  var filtrados=LOTES.filter(function(l){
+    var f=getFesta(l.festa_id);
+    if(festas.length&&festas.indexOf(f.nome||'')===-1)return false;
+    if(statuses.length&&statuses.indexOf(l.status||'')===-1)return false;
+    if(sexos.length&&sexos.indexOf(l.sexo||'')===-1)return false;
+    if(lotes.length&&lotes.indexOf(l.nome_lote||'')===-1)return false;
+    if(tipoPacotes.length&&tipoPacotes.indexOf(l.tipo_pacote||'')===-1)return false;
+    if(lcBusca&&getDealLoteInfo(l).txt.toLowerCase().indexOf(lcBusca)===-1)return false;
+    return true;
+  });
+  var rows=filtrados.map(function(l){
+    var f=getFesta(l.festa_id),c=calcLote(l),inf=getDealLoteInfo(l);
+    return{l:l,f:f,c:c,dealLoteTxt:inf.txt,dealLoteCusto:inf.custo,dealLoteIsAuto:inf.isAuto};
+  });
+  if(_sortCol){
+    rows.sort(function(a,b){
+      var va,vb;
+      switch(_sortCol){
+        case 'festa':    va=a.f.nome||'';  vb=b.f.nome||'';  break;
+        case 'status':   va=a.l.status||''; vb=b.l.status||''; break;
+        case 'lote':     va=a.l.nome_lote||''; vb=b.l.nome_lote||''; break;
+        case 'sexo':     va=a.l.sexo||'';  vb=b.l.sexo||'';  break;
+        case 'deal_custo': va=a.dealLoteTxt||''; vb=b.dealLoteTxt||''; break;
+        case 'tick_base':  va=a.l.preco_ticketeira||0; vb=b.l.preco_ticketeira||0; break;
+        case 'tick_final': va=a.c.tickFinal||0; vb=b.c.tickFinal||0; break;
+        case 'injoy_custo':va=a.l.custo_injoy||0; vb=b.l.custo_injoy||0; break;
+        case 'gordura':    va=a.c.gordura||0;    vb=b.c.gordura||0;    break;
+        case 'mg_atual':   va=a.c.mgAtual||0;    vb=b.c.mgAtual||0;    break;
+        default: va=0; vb=0;
+      }
+      return(va<vb?-1:va>vb?1:0)*_sortDir;
+    });
+  }
+  function thS(col,lbl,ttl){
+    var isSorted=(_sortCol===col);
+    var icon=isSorted?(_sortDir===1?'▲':'▼'):'⇅';
+    var t=ttl?' title="'+ttl+'"':'';
+    return '<th class="sortable" onclick="sortAnalise(\''+col+'\')"'+t+'>'+lbl+' <span style="font-size:9px;opacity:'+(isSorted?'1':'0.3')+'">'+icon+'</span></th>';
+  }
+  function thN(lbl,ttl){return '<th'+(ttl?' title="'+ttl+'"':'')+'>'+lbl+'</th>';}
+  var thead='<tr>';
+  thead+=thS('festa','Festa')+thS('status','Status')+thN('Cenário');
+  thead+=thS('lote','Lote')+thS('sexo','Sexo')+thN('Tipo Pacote')+thN('Dias');
+  thead+=thS('deal_custo','Lote Custo','Lote de custo vinculado via Deal');
+  thead+=thS('tick_base','Tick. Base')+thS('tick_final','Tick. Final');
+  thead+=thN('Comm. Base')+thN('Comm. Final');
+  thead+=thS('injoy_custo','INJOY Custo')+thS('gordura','Gordura','Comissário Final − Custo');
+  thead+=thN('INJOY Base')+thN('INJOY Final');
+  thead+=thS('mg_atual','Mg %','Mg Base / INJOY Base');
+  thead+=thN('%Gord→Mg','Mg Base / Gordura')+thN('Pot.Mg Comm','(Comm.Base−Custo)/Comm.Base');
+  thead+=thN('Link')+thN('Ações');
+  thead+='</tr>';
+  $('#thead-analise').html(thead);
+  var html='';
+  var _lastFestaId=null,_festaColorIdx={},_fColorCnt=0;
+  var _festaBgs=['','#f4f7ff']; // branco e azul bem suave, alterna por festa
+  rows.forEach(function(row){
+    var l=row.l,f=row.f,c=row.c,hT=l.preco_ticketeira>0,hC=l.custo_injoy>0;
+    if(_festaColorIdx[f.id]===undefined){_festaColorIdx[f.id]=_fColorCnt%2;_fColorCnt++;}
+    var rowBg=_festaBgs[_festaColorIdx[f.id]];
+    // Cabeçalho de grupo quando a festa muda
+    if(f.id!==_lastFestaId){
+      if(_lastFestaId!==null)html+='<tr><td colspan="22" style="padding:0;border-top:3px solid #b0b8cc;height:3px;background:#b0b8cc;"></td></tr>';
+      html+='<tr style="background:#e4e8f0;border-top:2px solid #b0b8cc;">';
+      html+='<td colspan="22" style="padding:5px 10px;font-size:11px;font-weight:700;color:#2a3a5a;">';
+      html+='<i class="fa fa-calendar-o" style="color:#e8a000;margin-right:6px;"></i>'+esc(f.nome||'—');
+      if(f.destino)html+=' <span style="font-weight:normal;color:#777;font-size:10px;">· '+esc(f.destino)+'</span>';
+      html+='</td></tr>';
+      _lastFestaId=f.id;
+    }
+    html+='<tr class="bst-'+l.status+'"'+(rowBg?' style="background:'+rowBg+';"':'')+'>';
+    html+='<td>'+esc(f.nome||'—')+'</td>';
+    html+='<td><span class="lote-status st-'+l.status+'" style="font-size:10px;">'+l.status+'</span></td>';
+    html+='<td>'+(l.cenario?'<i style="color:#aaa;font-size:11px;">'+esc(l.cenario)+'</i>':'—')+'</td>';
+    html+='<td>'+esc(l.nome_lote)+'</td><td>'+esc(l.sexo)+'</td><td>'+(l.tipo_pacote?esc(l.tipo_pacote):'—')+'</td><td>'+(l.dias||'—')+'</td>';
+    if(row.dealLoteTxt){
+      var iconCor=row.dealLoteIsAuto?'#aaa':'#5cb85c';
+      var iconTitle=row.dealLoteIsAuto?'Detectado automaticamente (defina link manual no lote para fixar)':'Link manual definido';
+      html+='<td style="font-size:10px;max-width:140px;white-space:normal;" title="'+iconTitle+'">';
+      html+='<i class="fa fa-link" style="color:'+iconCor+';margin-right:2px;"></i>'+esc(row.dealLoteTxt);
+      if(row.dealLoteCusto){html+='<br><b style="color:#388e3c;">'+R(row.dealLoteCusto)+'</b>';}
+      html+='</td>';
+    }else{html+='<td style="color:#ccc;text-align:center;">—</td>';}
+    html+='<td>'+(hT?R(l.preco_ticketeira):'—')+'</td><td>'+(hT?R(c.tickFinal):'—')+'</td>';
+    html+='<td>'+(hT?R(c.commBase):'—')+'</td><td>'+(hT?R(c.commFinal):'—')+'</td>';
+    html+='<td>'+(hC?R(l.custo_injoy):'—')+'</td>';
+    html+='<td class="'+(hT&&hC?corCell(c.gordura/c.commFinal):'')+'">'+(hT&&hC?R(c.gordura):'—')+'</td>';
+    html+='<td><b>'+(hT?R(c.injoyBase):'—')+'</b></td><td>'+(hT?R(c.injoyFinal):'—')+'</td>';
+    html+='<td class="'+(hT&&hC?corCell(c.mgAtual):'')+'">'+(hT&&hC?P(c.mgAtual):'—')+'</td>';
+    html+='<td class="'+(hT&&hC?corCell(c.pctGordMg):'')+'">'+(hT&&hC?P(c.pctGordMg):'—')+'</td>';
+    html+='<td>'+(hT&&hC?P(c.potMgComm):'—')+'</td>';
+    html+='<td>'+(l.url_consulta?'<a href="'+esc(l.url_consulta)+'" target="_blank" class="btn btn-default btn-xs"><i class="fa fa-external-link"></i></a>':'—')+'</td>';
+    html+='<td><button class="btn btn-primary btn-xs" onclick="abrirModalLote('+l.festa_id+','+l.id+')"><i class="fa fa-pencil"></i></button></td>';
+    html+='</tr>';
+  });
+  $('#tbody-analise').html(html||'<tr><td colspan="22" class="empty-state">Nenhum resultado.</td></tr>');
+}
+function limparFiltros(){
+  $('.f-festa-cb,.f-status-cb,.f-sexo-cb,.f-lote-cb,.f-tipopacote-cb').prop('checked',false);
+  atualizarLabelFesta();
+  updateMenuLabel('f-status-lbl',[],'Todos');
+  updateMenuLabel('f-sexo-lbl',[],'Todos');
+  updateMenuLabel('f-lote-lbl',[],'Todos');
+  updateMenuLabel('f-tipopacote-lbl',[],'Todos');
+  $('#f-lotecusto').val('');
+  _sortCol=null;_sortDir=1;filtrarAnalise();
+}
+
+// ============================================================
+// TAB 3: SIMULADOR
+// ============================================================
+function simCarregarLote(){
+  var opt=$('#sim-lote-ref option:selected');if(!opt.val())return;
+  var l=LOTES.find(function(x){return x.id==opt.val();});if(!l)return;
+  var f=getFesta(l.festa_id);
+  $('#sim-tick').val(l.preco_ticketeira||'');$('#sim-custo').val(l.custo_injoy||'');
+  $('#sim-comm').val(((f.comissao_rate||0.05)*100).toFixed(1));
+  $('#sim-taxa').val(((l.taxa_servico||0.12)*100).toFixed(1));
+  $('#sim-metodo').val(l.metodo_venda||'valor_abaixo_comissario');
+  $('#sim-param').val(l.parametro_venda!=null?l.parametro_venda:100);
+  simMetodoChanged();simCalc();
+}
+function simMetodoChanged(){var m=$('#sim-metodo').val();$('#sim-param-lbl').text(m==='percentual_comissario'?'Parâmetro (%)':m==='manual'?'Preço Boleto (R$)':'Valor (R$)');}
+function simCalc(){
+  var tick=+$('#sim-tick').val()||0,custo=+$('#sim-custo').val()||0;
+  var comm=+$('#sim-comm').val()||5,taxa=+$('#sim-taxa').val()||12;
+  var metodo=$('#sim-metodo').val(),param=+$('#sim-param').val()||0;
+  var gTick=+$('#sim-gTick').val()||0,gCusto=+$('#sim-gCusto').val()||0,nLotes=+$('#sim-nlotes').val()||3;
+  if(!tick){$('#sim-resultado-atual').html('<p class="text-muted"><i class="fa fa-arrow-left"></i> Preencha o Preço Ticketeira.</p>');$('#sim-projecao').html('<p class="text-muted">—</p>');return;}
+  var c=calc(tick,custo,comm,taxa,4,-2.85,metodo,param,0);
+  var html='<div class="sim-highlight"><div style="font-size:11px;color:#888;margin-bottom:4px;">Preço de Venda Sugerido — INJOY</div>';
+  html+='<div style="font-size:24px;font-weight:700;color:#1c1c2e;">'+R(c.injoyBase)+'</div>';
+  html+='<div style="font-size:13px;color:#888;margin-top:2px;">INJOY Final: '+R(c.injoyFinal)+'</div></div>';
+  var rows=[
+    ['Tick. Base',R(tick)],['Tick. Final',R(c.tickFinal)],
+    ['Comm. Base',R(c.commBase)],['Comm. Final',R(c.commFinal)],
+    ['Custo INJOY',custo?R(custo):'não informado'],
+    ['Gordura Disponível',custo?R(c.gordura):'—'],
+    ['INJOY Base',R(c.injoyBase)],['INJOY Final',R(c.injoyFinal)],
+    ['Margem Base (bruto)',custo?R(c.mgBase):'—'],
+    ['Margem Final (c/ CC)',custo?R(c.mgFinal):'—'],
+    ['Mg % sobre Venda',custo?P(c.mgAtual):'—'],
+    ['% Gordura → Margem',custo?P(c.pctGordMg):'—'],
+    ['Pot. Mg a preço Comissário',custo?P(c.potMgComm):'—'],
+    ['Pot. Mg a preço Ticketeira',custo?P(c.potMgTick):'—'],
+  ];
+  rows.forEach(function(r){html+='<div class="sim-result-row"><span class="sim-lbl">'+r[0]+'</span><span class="sim-val">'+r[1]+'</span></div>';});
+  $('#sim-resultado-atual').html(html);
+  var proj='<table class="proj-table"><thead><tr><th>Lote</th><th>Ticketeira</th><th>INJOY Custo</th><th>INJOY Base</th><th>INJOY Final</th>';
+  if(custo)proj+='<th>Gordura</th><th>Mg Base</th><th>Mg %</th>';
+  proj+='</tr></thead><tbody>';
+  var tCur=tick,cCur=custo;
+  for(var i=0;i<=nLotes;i++){
+    var ci=calc(tCur,cCur,comm,taxa,4,-2.85,metodo,param,0);
+    proj+='<tr style="'+(i===0?'background:#fffbf0;font-weight:600;':'')+'">';
+    proj+='<td>'+(i===0?'<b>Base</b>':'Lote +'+i)+'</td>';
+    proj+='<td>'+R(tCur)+'</td><td>'+(cCur?R(cCur):'—')+'</td>';
+    proj+='<td>'+R(ci.injoyBase)+'</td><td>'+R(ci.injoyFinal)+'</td>';
+    if(custo){proj+='<td class="'+corCell(ci.gordura/ci.commFinal)+'">'+R(ci.gordura)+'</td>';
+      proj+='<td class="'+corCell(ci.mgAtual)+'">'+R(ci.mgBase)+'</td>';
+      proj+='<td class="'+corCell(ci.mgAtual)+'">'+P(ci.mgAtual)+'</td>';}
+    proj+='</tr>';
+    tCur=tCur*(1+gTick/100);if(cCur)cCur=cCur*(1+gCusto/100);
+  }
+  proj+='</tbody></table>';
+  $('#sim-projecao').html(proj);
+}
+
+// ============================================================
+// TAB 4: DEALS
+// ============================================================
+function toggleDeal(id){
+  var body=$('#body-deal-'+id);
+  var ico=$('#ico-deal-'+id);
+  if(body.is(':visible')){body.slideUp(150);ico.removeClass('fa-chevron-up').addClass('fa-chevron-down');}
+  else{body.slideDown(150);ico.removeClass('fa-chevron-down').addClass('fa-chevron-up');}
+}
+
+function renderDeals(){
+  if(!DEALS.length){$('#lista-deals').html('<div class="empty-state"><i class="fa fa-handshake-o fa-3x"></i><p style="margin-top:10px;">Nenhum deal cadastrado.</p></div>');return;}
+  var html='';
+  DEALS.forEach(function(d){
+    var f=getFesta(d.festa_id);
+    var f1Resumo=(d.fase1_ilimitado?'∞':''+d.fase1_qtd_total)+' pacotes';
+    var f2Resumo=d.fase2_ativa?'Fase 2 ativa':'Sem fase 2';
+    html+='<div class="deal-card"><div class="deal-header" onclick="toggleDeal('+d.id+')" style="cursor:pointer;">';
+    html+='<div><h4>'+esc(d.nome)+'</h4>';
+    html+='<div style="font-size:11px;color:#888;">'+esc(f.nome||d.festa_nome||'')+' &nbsp;·&nbsp; '+f1Resumo+' &nbsp;·&nbsp; '+f2Resumo+'</div></div>';
+    html+='<div style="display:flex;gap:8px;align-items:center;"><span class="deal-badge db-'+d.status+'">'+d.status+'</span>';
+    html+='<button class="btn btn-default btn-xs" onclick="event.stopPropagation();abrirModalDeal('+d.id+')"><i class="fa fa-pencil"></i></button>';
+    html+='<button class="btn btn-danger btn-xs" onclick="event.stopPropagation();excluirDeal('+d.id+')"><i class="fa fa-trash"></i></button>';
+    html+='<i class="fa fa-chevron-down text-muted" id="ico-deal-'+d.id+'"></i>';
+    html+='</div></div><div class="deal-body" id="body-deal-'+d.id+'" style="display:none;"><div class="row">';
+    // Fase 1
+    html+='<div class="col-sm-5"><div class="fase-box fase1"><div class="fase-label">⓵ FASE 1 — Pacotes Travados</div>';
+    html+='<div style="font-size:22px;font-weight:700;color:#2d6a4f;">'+(d.fase1_ilimitado?'∞':d.fase1_qtd_total)+'</div>';
+    html+='<div style="font-size:11px;color:#555;">'+(d.fase1_ilimitado?'ilimitado':'pacotes')+' · 1 cortesia a cada '+d.fase1_cortesia_regra+'</div>';
+    if(d.lotes&&d.lotes.length){
+      html+='<table class="lote-tbl"><thead><tr><th>Lote / Variação</th><th>Qtd</th><th>Tipo</th><th>Fem</th><th>Masc</th><th>Cort.</th></tr></thead><tbody>';
+      d.lotes.forEach(function(l){
+        if(l.variacoes&&l.variacoes.length){
+          html+='<tr style="background:#f0f7ff;"><td><b>'+esc(l.nome_lote)+'</b></td><td style="color:#555;">'+l.qtd_travada+'</td><td colspan="3" style="color:#888;font-size:10px;">'+l.variacoes.length+' var.</td><td>'+l.cortesias_lote+'</td></tr>';
+          l.variacoes.forEach(function(v){var ctL=v.custo_tipo==='pct_ticketeira'?'% tick.':'R$ fixo';var vTxt=(v.tipo_pacote||'')+(v.dias?' '+v.dias+'d':'');html+='<tr><td style="padding-left:14px;color:#666;font-size:11px;">↳ '+esc(vTxt||'—')+'</td><td style="font-size:11px;color:#aaa;">'+(v.qtd_individual||'—')+'</td><td><span style="font-size:10px;color:#888;">'+ctL+'</span></td><td>'+(v.custo_fem?R(v.custo_fem):'—')+'</td><td>'+(v.custo_masc?R(v.custo_masc):'—')+'</td><td></td></tr>';});
+        }else{
+          var ctLabel=l.custo_tipo==='pct_ticketeira'?'% tick.':'R$ fixo';
+          html+='<tr><td>'+esc(l.nome_lote)+'</td><td>'+l.qtd_travada+'</td><td><span style="font-size:10px;color:#888;">'+ctLabel+'</span></td><td>'+(l.custo_fem?R(l.custo_fem):'—')+'</td><td>'+(l.custo_masc?R(l.custo_masc):'—')+'</td><td>'+l.cortesias_lote+'</td></tr>';
+        }
+      });
+      html+='</tbody></table>';}
+    if(d.obs_custo)html+='<div style="margin-top:6px;font-size:11px;color:#666;font-style:italic;border-top:1px solid #c8e6c9;padding-top:5px;"><b>Custo:</b> '+esc(d.obs_custo)+'</div>';
+    html+='</div></div>';
+    // Fase 2
+    html+='<div class="col-sm-4"><div class="fase-box fase2" style="'+(d.fase2_ativa?'':'opacity:.4;')+'">';
+    html+='<div class="fase-label">⓶ FASE 2'+(d.fase2_ativa?'':' (não configurada)')+'</div>';
+    if(d.fase2_ativa){var tm={lotes_abaixo:'Lotes abaixo do vigente',percentual_comissario:'% abaixo comissário',manual:'Manual'};
+      html+='<div style="font-size:12px;"><b>Tipo:</b> '+(tm[d.fase2_tipo]||d.fase2_tipo)+'</div>';
+      if(d.fase2_tipo==='lotes_abaixo')html+='<div style="font-size:12px;"><b>Lotes abaixo:</b> '+(d.fase2_ilimitado?'∞ ilimitado':d.fase2_lotes_abaixo)+'</div>';
+      if(d.fase2_descricao)html+='<div style="font-size:11px;color:#555;margin-top:5px;line-height:1.4;">'+esc(d.fase2_descricao)+'</div>';}
+    html+='</div>';
+    if(d.repasse&&d.repasse.length){
+      html+='<div style="margin-top:8px;"><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px;">Repasse</div>';
+      html+='<table class="lote-tbl"><thead><tr><th>Mês</th><th>Parcelas</th></tr></thead><tbody>';
+      d.repasse.forEach(function(r){html+='<tr><td>'+esc(r.mes)+'</td><td>até '+r.parcelas_max+'×</td></tr>';});
+      html+='</tbody></table></div>';}
+    html+='</div>';
+    // Extras
+    html+='<div class="col-sm-3"><div style="font-size:12px;">';
+    html+='<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:5px;">Comissionamento</div>';
+    html+='<div>Comissários: '+(d.comissao_rate*100).toFixed(1)+'%</div>';
+    html+='<div>Diferencial IJ: '+(d.diferencial_injoy_rate*100).toFixed(1)+'%</div>';
+    if(d.cortesias_relacionamento)html+='<div style="margin-top:8px;">Cortesias relac.: '+d.cortesias_relacionamento+'</div>';
+    if(d.observacoes)html+='<div style="margin-top:8px;font-style:italic;color:#888;font-size:11px;">'+esc(d.observacoes)+'</div>';
+    html+='</div></div></div></div></div>';
+  });
+  $('#lista-deals').html(html);
+}
+
+function abrirModalDeal(id){
+  var d=id?DEALS.find(function(x){return x.id==id;})||{}:{};
+  $('#md-id').val(d.id||'');$('#md-festa').val(d.festa_id||'');$('#md-nome').val(d.nome||'');
+  $('#md-status').val(d.status||'Negociação');$('#md-f1-qtd').val(d.fase1_ilimitado?0:d.fase1_qtd_total||0);
+  $('#md-f1-ilimitado').prop('checked',!!d.fase1_ilimitado);toggleF1Ilimitado();
+  $('#md-f1-cort').val(d.fase1_cortesia_regra||20);$('#md-cort-rel').val(d.cortesias_relacionamento||0);
+  $('#md-f2-ativa').prop('checked',!!d.fase2_ativa);$('#md-f2-tipo').val(d.fase2_tipo||'lotes_abaixo');
+  $('#md-f2-param').val(d.fase2_lotes_abaixo||2);$('#md-f2-ilimitado').prop('checked',!!d.fase2_ilimitado);$('#md-f2-desc').val(d.fase2_descricao||'');
+  $('#md-comm').val(d.comissao_rate?(d.comissao_rate*100).toFixed(1):5);
+  $('#md-dif').val(d.diferencial_injoy_rate?(d.diferencial_injoy_rate*100).toFixed(1):10);
+  $('#md-obs-custo').val(d.obs_custo||'');$('#md-obs').val(d.observacoes||'');
+  $('#md-lotes-body').html('');(d.lotes||[]).forEach(function(l){addDealLote(l);});
+  $('#md-repasse-body').html('');(d.repasse||[]).forEach(function(r){addRepasse(r);});
+  toggleFase2();toggleFase2Param();
+  $('#mdTitulo').text(d.id?'Editar Deal':'Novo Deal');$('#modalDeal').modal('show');
+}
+function toggleFase2(){$('#md-fase2-campos').toggle($('#md-f2-ativa').is(':checked'));toggleFase2Param();}
+function toggleFase2Param(){var t=$('#md-f2-tipo').val();var m={lotes_abaixo:'Nº de lotes abaixo',percentual_comissario:'% abaixo',manual:'(descreva abaixo)'};$('#md-f2-param-lbl').text(m[t]||'Parâmetro');$('#md-f2-param-box').toggle(t!=='manual');}
+function toggleF1Ilimitado(){var ilim=$('#md-f1-ilimitado').is(':checked');$('#md-f1-qtd').prop('disabled',ilim).val(ilim?'':$('#md-f1-qtd').val());}
+function dvSexoChange(sel){
+  var $r=$(sel).closest('.deal-var-row'),sv=$(sel).val();
+  $r.find('.dv-unico').css('display',sv==='Unissex'?'':'none');
+  $r.find('.dv-fem').css('display',(sv==='Feminino'||sv==='Fem+Masc')?'':'none');
+  $r.find('.dv-masc').css('display',(sv==='Masculino'||sv==='Fem+Masc')?'':'none');
+}
+function buildVarRow(v,festaId){
+  v=v||{};var ct=v.custo_tipo||'fixo';
+  var sv=v.sexo||(v.custo_fem&&v.custo_masc?'Fem+Masc':'Unissex');
+  var showU=sv==='Unissex',showF=sv==='Feminino'||sv==='Fem+Masc',showM=sv==='Masculino'||sv==='Fem+Masc';
+  var unicoVal=v.custo_fem||v.custo_masc||'';
+  return '<div class="deal-var-row" style="display:flex;align-items:center;gap:4px;padding:3px 6px 3px 20px;background:#f8fcff;border-left:3px solid #b0c4de;margin:2px 0;">'
+    +'<select class="form-control input-sm dv-tipo" style="width:130px;">'+buildTipoOptions(festaId||0,v.tipo_pacote||'')+'</select>'
+    +'<input type="number" class="form-control input-sm dv-dias" placeholder="Dias" value="'+(v.dias||'')+'" style="width:55px;" title="Nº de dias do pacote">'
+    +'<select class="dv-ctipo" style="width:90px;border:1px solid #ccc;border-radius:3px;padding:3px 4px;font-size:11px;">'
+      +'<option value="fixo"'+(ct==='fixo'?' selected':'')+'>R$ fixo</option>'
+      +'<option value="pct_ticketeira"'+(ct==='pct_ticketeira'?' selected':'')+'># abaixo tick.</option>'
+    +'</select>'
+    +'<select class="dv-sexo" onchange="dvSexoChange(this)" style="width:80px;border:1px solid #ccc;border-radius:3px;padding:3px 4px;font-size:11px;" title="Gênero desta variação">'
+      +'<option value="Unissex"'+(sv==='Unissex'?' selected':'')+'>Unissex</option>'
+      +'<option value="Fem+Masc"'+(sv==='Fem+Masc'?' selected':'')+'>Fem+Masc</option>'
+      +'<option value="Feminino"'+(sv==='Feminino'?' selected':'')+'>Feminino</option>'
+      +'<option value="Masculino"'+(sv==='Masculino'?' selected':'')+'>Masculino</option>'
+    +'</select>'
+    +'<input type="number" class="form-control input-sm dv-unico" placeholder="Custo" value="'+unicoVal+'" style="width:184px;'+(showU?'':'display:none;')+'" title="Custo único (mesmo valor para todos)">'
+    +'<input type="number" class="form-control input-sm dv-fem" placeholder="Custo Fem" value="'+(v.custo_fem||'')+'" style="width:90px;'+(showF?'':'display:none;')+'">'
+    +'<input type="number" class="form-control input-sm dv-masc" placeholder="Custo Masc" value="'+(v.custo_masc||'')+'" style="width:90px;'+(showM?'':'display:none;')+'">'
+    +'<input type="number" class="form-control input-sm dv-qtdi" placeholder="Qtd própria" value="'+(v.qtd_individual||'')+'" style="width:80px;" title="Qtd travada para esta variação (opcional)">'
+    +'<button class="btn btn-danger btn-xs" onclick="$(this).closest(\'.deal-var-row\').remove()" title="Remover variação"><i class="fa fa-times"></i></button>'
+    +'</div>';
+}
+function addDealVariacao(btn){var fid=+$('#md-festa').val()||0;$(btn).closest('.deal-lote-blk').find('.deal-var-body').append(buildVarRow({},fid));}
+function addDealLote(l){
+  l=l||{};
+  var fid=+$('#md-festa').val()||l._festaId||0;
+  var vars=l.variacoes&&l.variacoes.length?l.variacoes
+    :(l.custo_fem||l.custo_masc)?[{tipo_pacote:'',dias:l.dias||null,custo_tipo:l.custo_tipo||'fixo',custo_fem:l.custo_fem,custo_masc:l.custo_masc,qtd_individual:null}]
+    :[{}];
+  var varHtml=vars.map(function(v){return buildVarRow(v,fid);}).join('');
+  var blk='<div class="deal-lote-blk" style="background:#f0f7ff;border:1px solid #c0d8f0;border-radius:4px;padding:6px;margin-bottom:8px;">'
+    +'<div class="deal-lote-hdr" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">'
+    +'<i class="fa fa-tag" style="color:#4a90d9;margin-right:2px;"></i>'
+    +'<input type="text" class="form-control input-sm dl-nome" placeholder="Nome do Lote" value="'+esc(l.nome_lote||'')+'" style="width:130px;">'
+    +'<label style="font-size:11px;margin:0;white-space:nowrap;color:#555;">Qtd Total:</label>'
+    +'<input type="number" class="form-control input-sm dl-qtd" placeholder="100" value="'+(l.qtd_travada||'')+'" style="width:70px;" title="Quantidade total travada (compartilhada entre variações)">'
+    +'<label style="font-size:11px;margin:0;white-space:nowrap;color:#555;">Cortesias:</label>'
+    +'<input type="number" class="form-control input-sm dl-cort" placeholder="0" value="'+(l.cortesias_lote||0)+'" style="width:60px;">'
+    +'<button class="btn btn-info btn-xs" onclick="addDealVariacao(this)" title="Adicionar variação de pacote/dias"><i class="fa fa-plus"></i> Variação</button>'
+    +'<button class="btn btn-danger btn-xs" onclick="$(this).closest(\'.deal-lote-blk\').remove()"><i class="fa fa-trash"></i> Lote</button>'
+    +'</div>'
+    +'<div style="font-size:10px;color:#888;padding:1px 6px 2px 20px;display:flex;gap:4px;align-items:center;">'
+    +'<span style="flex:0 0 130px;width:130px;">Tipo Pacote</span>'
+    +'<span style="flex:0 0 55px;width:55px;">Dias</span>'
+    +'<span style="flex:0 0 90px;width:90px;">Tipo</span>'
+    +'<span style="flex:0 0 80px;width:80px;">Sexo</span>'
+    +'<span style="flex:0 0 184px;width:184px;">Custo (Fem / Masc)</span>'
+    +'<span style="flex:0 0 80px;width:80px;">Qtd própria</span>'
+    +'</div>'
+    +'<div class="deal-var-body">'+varHtml+'</div>'
+    +'</div>';
+  $('#md-lotes-body').append(blk);
+}
+function addRepasse(r){r=r||{};var tr='<tr><td><input type="text" placeholder="Ex: Maio" value="'+esc(r.mes||'')+'"></td><td><input type="number" placeholder="6" value="'+(r.parcelas_max||'')+'"></td><td><button class="btn btn-danger btn-xs" onclick="$(this).closest(\'tr\').remove()"><i class="fa fa-times"></i></button></td></tr>';$('#md-repasse-body').append(tr);}
+function salvarDeal(){
+  var nome=$('#md-nome').val().trim(),festaId=+$('#md-festa').val();
+  if(!nome||!festaId){alert('Preencha Festa e Nome do Deal.');return;}
+  var lotes=[],repasse=[];
+  $('#md-lotes-body .deal-lote-blk').each(function(){
+    var $b=$(this),variacoes=[];
+    $b.find('.deal-var-row').each(function(){
+      var $r=$(this);
+      var sv=$r.find('.dv-sexo').val()||'Unissex';
+      var fem=null,masc=null;
+      if(sv==='Unissex'){var u=+$r.find('.dv-unico').val()||null;fem=u;masc=u;}
+      else if(sv==='Feminino'){fem=+$r.find('.dv-fem').val()||null;}
+      else if(sv==='Masculino'){masc=+$r.find('.dv-masc').val()||null;}
+      else{fem=+$r.find('.dv-fem').val()||null;masc=+$r.find('.dv-masc').val()||null;}
+      variacoes.push({sexo:sv,tipo_pacote:$r.find('.dv-tipo').val()||'',dias:+$r.find('.dv-dias').val()||null,custo_tipo:$r.find('.dv-ctipo').val()||'fixo',custo_fem:fem,custo_masc:masc,qtd_individual:+$r.find('.dv-qtdi').val()||null});
+    });
+    lotes.push({nome_lote:$b.find('.dl-nome').val(),qtd_travada:+$b.find('.dl-qtd').val()||0,cortesias_lote:+$b.find('.dl-cort').val()||0,variacoes:variacoes});
+  });
+  $('#md-repasse-body tr').each(function(){var ins=$(this).find('input');repasse.push({mes:ins.eq(0).val(),parcelas_max:+ins.eq(1).val()});});
+  var id=+$('#md-id').val()||0;
+  var f=getFesta(festaId);
+  var obj={id:id||novoId(),festa_id:festaId,festa_nome:f.nome,nome:nome,status:$('#md-status').val(),
+    comissao_rate:+$('#md-comm').val()/100,diferencial_injoy_rate:+$('#md-dif').val()/100,
+    fase1_qtd_total:+$('#md-f1-qtd').val(),fase1_ilimitado:$('#md-f1-ilimitado').is(':checked'),fase1_cortesia_regra:+$('#md-f1-cort').val(),
+    cortesias_relacionamento:+$('#md-cort-rel').val(),
+    fase2_ativa:$('#md-f2-ativa').is(':checked')?1:0,fase2_tipo:$('#md-f2-tipo').val(),
+    fase2_lotes_abaixo:+$('#md-f2-param').val(),fase2_ilimitado:$('#md-f2-ilimitado').is(':checked'),fase2_descricao:$('#md-f2-desc').val(),
+    obs_custo:$('#md-obs-custo').val(),observacoes:$('#md-obs').val(),lotes:lotes,repasse:repasse};
+  if(id){DEALS=DEALS.map(function(d){return d.id==id?obj:d;});}else{DEALS.push(obj);}
+  salvar('deals',DEALS);
+  // Sincronizar ESTOQUE automaticamente
+  var newLoteNames=lotes.map(function(l){return l.nome_lote;});
+  ESTOQUE=ESTOQUE.filter(function(e){return e.deal_id!==obj.id||newLoteNames.indexOf(e.nome_lote)!==-1;});
+  lotes.forEach(function(dl){
+    var ex=ESTOQUE.find(function(e){return e.deal_id===obj.id&&e.nome_lote===dl.nome_lote;});
+    if(ex){ex.capacidade=dl.qtd_travada||0;ex.deal_nome=obj.nome;ex.festa_nome=f.nome;}
+    else{ESTOQUE.push({id:novoId(),deal_id:obj.id,deal_nome:obj.nome,festa_nome:f.nome,nome_lote:dl.nome_lote,capacidade:dl.qtd_travada||0,ilimitado:false,vendido_fem:0,vendido_masc:0,cortesia:0,cortesia_conta_estoque:false,cortesia_auto:true});}
+  });
+  salvar('estoque',ESTOQUE);
+  $('#modalDeal').modal('hide');renderDeals();
+}
+function excluirDeal(id){if(!confirm('Excluir este deal?'))return;DEALS=DEALS.filter(function(d){return d.id!=id;});salvar('deals',DEALS);renderDeals();}
+
+// ============================================================
+// TAB 5: ESTOQUE
+// ============================================================
+function dealIsUnissex(deal){
+  var vList=[];
+  (deal.lotes||[]).forEach(function(dl){(dl.variacoes||[]).forEach(function(v){vList.push(v);});});
+  return vList.length>0&&vList.every(function(v){return(v.sexo||'Fem+Masc')==='Unissex';});
+}
+function atualizarEstDealSel(){
+  var dealId=+$('#est-deal-sel').val();
+  if(!dealId){$('#est-qtd-inputs').html('<p class="text-muted" style="font-size:12px;margin-top:5px;">Selecione um deal para lancar vendas.</p>');return;}
+  var deal=DEALS.find(function(d){return d.id===dealId;})||{};
+  var html;
+  if(dealIsUnissex(deal)){
+    html='<div class="row"><div class="col-sm-3"><label style="font-size:12px;">Qtd Total <span style="background:#f0eaff;color:#6a3db8;font-size:10px;padding:1px 6px;border-radius:8px;">Unissex</span></label><input type="number" class="form-control input-sm" id="est-qtd-uni" min="0" placeholder="0"></div></div>';
+  }else{
+    html='<div class="row"><div class="col-sm-3"><label style="font-size:12px;">Qtd Feminino</label><input type="number" class="form-control input-sm" id="est-qtd-fem" min="0" placeholder="0"></div>';
+    html+='<div class="col-sm-3"><label style="font-size:12px;">Qtd Masculino</label><input type="number" class="form-control input-sm" id="est-qtd-masc" min="0" placeholder="0"></div></div>';
+  }
+  $('#est-qtd-inputs').html(html);
+}
+
+function lancarVendas(){
+  var dealId=+$('#est-deal-sel').val();
+  if(!dealId){alert('Selecione um deal.');return;}
+  var deal=DEALS.find(function(d){return d.id===dealId;})||{};
+  var unissex=dealIsUnissex(deal);
+  var qtdFem,qtdMasc;
+  if(unissex){var u=+$('#est-qtd-uni').val()||0;qtdFem=u;qtdMasc=0;}
+  else{qtdFem=+$('#est-qtd-fem').val()||0;qtdMasc=+$('#est-qtd-masc').val()||0;}
+  if(qtdFem+qtdMasc<=0){alert('Informe a quantidade vendida.');return;}
+  var lotesDeal=ESTOQUE.filter(function(e){return e.deal_id===dealId;}).sort(function(a,b){return a.nome_lote.localeCompare(b.nome_lote);});
+  var rFem=qtdFem,rMasc=qtdMasc;
+  lotesDeal.forEach(function(est){
+    if(rFem+rMasc<=0)return;
+    if(est.ilimitado){est.vendido_fem+=rFem;est.vendido_masc+=rMasc;rFem=0;rMasc=0;return;}
+    var totalVend=est.vendido_fem+est.vendido_masc+est.cortesia;
+    var disp=Math.max(0,est.capacidade-totalVend);
+    if(disp<=0)return;
+    var totalRest=rFem+rMasc;
+    var absorver=Math.min(totalRest,disp);
+    var absFem=totalRest>0?Math.round(absorver*rFem/totalRest):0;
+    var absMasc=absorver-absFem;
+    est.vendido_fem+=absFem;est.vendido_masc+=absMasc;
+    rFem=Math.max(0,rFem-absFem);rMasc=Math.max(0,rMasc-absMasc);
+  });
+  if(rFem+rMasc>0)alert('Atencao: '+(rFem+rMasc)+' ingressos sem capacidade disponivel nos lotes.');
+  var regra=deal.fase1_cortesia_regra>0?deal.fase1_cortesia_regra:0;
+  if(regra>0){
+    lotesDeal.forEach(function(est){
+      if(est.cortesia_auto!==false){
+        var totalV=est.vendido_fem+est.vendido_masc;
+        est.cortesia=Math.floor(totalV/regra);
+      }
+    });
+  }
+  salvar('estoque',ESTOQUE);
+  if(unissex){$('#est-qtd-uni').val('');}else{$('#est-qtd-fem,#est-qtd-masc').val('');}
+  renderEstoque();
+}
+
+function renderEstoque(){
+  var curDealSel=$('#est-deal-sel').val();
+  var curFiltro=$('#est-filtro-deal').val();
+  $('#est-deal-sel').html('<option value="">Selecione...</option>');
+  $('#est-filtro-deal').html('<option value="">Todos</option>');
+  DEALS.forEach(function(d){
+    $('#est-deal-sel').append('<option value="'+d.id+'"'+(curDealSel==d.id?' selected':'')+'>'+esc(d.nome)+'</option>');
+    $('#est-filtro-deal').append('<option value="'+d.id+'"'+(curFiltro==d.id?' selected':'')+'>'+esc(d.nome)+'</option>');
+  });
+  var filtro=+$('#est-filtro-deal').val();
+  var lista=filtro?ESTOQUE.filter(function(e){return e.deal_id===filtro;}):ESTOQUE;
+  var porDeal={};
+  lista.forEach(function(e){var k=e.deal_id+'|'+e.deal_nome;if(!porDeal[k])porDeal[k]=[];porDeal[k].push(e);});
+  var NC=9; // número de colunas
+  var html='<table class="table table-bordered table-condensed" style="font-size:12px;border-collapse:collapse;">';
+  html+='<thead><tr style="background:#2c2c3e;color:#fff;">';
+  html+='<th>Lote</th><th style="text-align:right;">Capacidade</th>';
+  html+='<th style="text-align:right;">Vend. Fem</th><th style="text-align:right;">Vend. Masc</th>';
+  html+='<th style="text-align:right;">Total Vendido</th><th style="text-align:right;">Cortesia</th>';
+  html+='<th style="text-align:right;">Disponível</th><th style="min-width:120px;">Ocupação</th><th>Editar</th></tr></thead><tbody>';
+  if(!Object.keys(porDeal).length){
+    html+='<tr><td colspan="'+NC+'" style="text-align:center;padding:20px;color:#aaa;">Nenhum registro. Salve um deal com lotes para controlar o estoque.</td></tr>';
+  }
+  var isFirst=true;
+  Object.keys(porDeal).forEach(function(key){
+    var rows=porDeal[key];
+    var dealObj=DEALS.find(function(d){return d.id===(rows[0]&&rows[0].deal_id);})||{};
+    var isUni=dealIsUnissex(dealObj);
+    var regraTxt=dealObj.fase1_cortesia_regra?'1 a cada '+dealObj.fase1_cortesia_regra:'';
+    // Separador grosso entre deals
+    if(!isFirst){html+='<tr><td colspan="'+NC+'" style="padding:0;height:4px;background:#c8d4e8;border:none;"></td></tr>';}
+    isFirst=false;
+    // Cabeçalho do deal
+    html+='<tr style="background:#dde6f5;color:#1e3a6e;">';
+    html+='<td colspan="'+NC+'" style="padding:7px 12px;font-size:12px;border-bottom:1px solid #b8cce8;">';
+    html+='<i class="fa fa-calendar-o" style="color:#e8a000;margin-right:6px;"></i>';
+    html+='<b>'+esc(rows[0].deal_nome)+'</b>';
+    html+=' <span style="font-weight:400;color:#6a82a8;font-size:11px;margin-left:6px;">'+esc(rows[0].festa_nome)+'</span>';
+    if(isUni)html+=' <span style="background:#f0eaff;color:#6a3db8;font-size:10px;padding:1px 7px;border-radius:8px;font-weight:400;margin-left:6px;">Unissex</span>';
+    html+='</td></tr>';
+    // Acumuladores de subtotal
+    var stCap=0,stFem=0,stMasc=0,stCort=0,stDisp=0,temIlimitado=false;
+    // Linhas de lote
+    rows.forEach(function(r,i){
+      var totalVend=r.vendido_fem+r.vendido_masc;
+      var contaEst=r.cortesia_conta_estoque?true:false;
+      var totalAbate=totalVend+(contaEst?r.cortesia:0);
+      var disp=r.ilimitado?null:Math.max(0,r.capacidade-totalAbate);
+      var pct=(!r.ilimitado&&r.capacidade>0)?totalAbate/r.capacidade:0;
+      var fc=pct>=0.9?'danger':pct>=0.6?'warn':'good';
+      var rowBg=i%2===0?'#ffffff':'#f6f9ff';
+      if(r.ilimitado){temIlimitado=true;}else{stCap+=r.capacidade||0;stDisp+=Math.max(0,r.capacidade-totalAbate);}
+      stFem+=r.vendido_fem;stMasc+=r.vendido_masc;stCort+=r.cortesia;
+      html+='<tr id="est-row-'+r.id+'" style="background:'+rowBg+';">';
+      html+='<td style="padding-left:18px;"><b>'+esc(r.nome_lote)+'</b></td>';
+      html+='<td style="text-align:right;">'+(r.ilimitado?'&infin;':r.capacidade)+'</td>';
+      if(isUni){
+        html+='<td style="text-align:right;color:#6a3db8;font-weight:600;" colspan="2">'+totalVend+'</td>';
+      }else{
+        html+='<td style="text-align:right;">'+r.vendido_fem+'</td>';
+        html+='<td style="text-align:right;">'+r.vendido_masc+'</td>';
+      }
+      html+='<td style="text-align:right;font-weight:700;">'+totalVend+'</td>';
+      var cortAuto=r.cortesia_auto!==false;
+      html+='<td style="text-align:right;">'+r.cortesia+(cortAuto?'<span title="Auto: '+regraTxt+'" style="color:#e8a000;font-size:10px;margin-left:3px;cursor:help;"><i class="fa fa-magic"></i></span>':'<span title="Manual" style="color:#aaa;font-size:10px;margin-left:3px;cursor:help;"><i class="fa fa-pencil"></i></span>')+'</td>';
+      html+='<td style="text-align:right;font-weight:700;">'+(r.ilimitado?'&infin;':disp)+'</td>';
+      if(r.ilimitado){html+='<td><span style="color:#aaa;font-size:11px;">&infin;</span></td>';}
+      else{html+='<td>'+Math.round(pct*100)+'%<div class="est-bar"><div class="est-fill '+fc+'" style="width:'+Math.min(pct*100,100)+'%"></div></div></td>';}
+      html+='<td><button class="btn btn-default btn-xs" onclick="editarEstoque('+r.id+')"><i class="fa fa-pencil"></i> Editar</button></td>';
+      html+='</tr>';
+      // Formulário de edição
+      html+='<tr id="est-form-'+r.id+'" style="display:none;background:#fffbf0;"><td colspan="'+NC+'"><div style="display:flex;gap:8px;align-items:center;padding:6px 14px;">';
+      html+='<b style="font-size:12px;">'+esc(r.nome_lote)+':</b>';
+      if(isUni){
+        html+='<label style="font-size:12px;margin:0;">Total <span style="background:#f0eaff;color:#6a3db8;font-size:10px;padding:1px 5px;border-radius:8px;">Unissex</span>: <input type="number" id="ef-t-'+r.id+'" value="'+totalVend+'" min="0" style="width:70px;border:1px solid #ccc;border-radius:3px;padding:2px 5px;"></label>';
+      }else{
+        html+='<label style="font-size:12px;margin:0;">Fem: <input type="number" id="ef-f-'+r.id+'" value="'+r.vendido_fem+'" min="0" style="width:70px;border:1px solid #ccc;border-radius:3px;padding:2px 5px;"></label>';
+        html+='<label style="font-size:12px;margin:0;">Masc: <input type="number" id="ef-m-'+r.id+'" value="'+r.vendido_masc+'" min="0" style="width:70px;border:1px solid #ccc;border-radius:3px;padding:2px 5px;"></label>';
+      }
+      var isAuto=r.cortesia_auto!==false;
+      html+='<span style="display:inline-flex;align-items:center;gap:6px;background:#fffbee;border:1px solid #f0e0a0;border-radius:4px;padding:3px 8px;">';
+      html+='<label style="font-size:12px;margin:0;display:inline-flex;align-items:center;gap:3px;cursor:pointer;"><input type="checkbox" id="ef-ca-'+r.id+'"'+(isAuto?' checked':'')+' onchange="toggleAutoCorte('+r.id+')"><i class="fa fa-magic" style="color:#e8a000;"></i> Auto cortesia</label>';
+      html+='<label style="font-size:12px;margin:0;">Cortesia: <input type="number" id="ef-c-'+r.id+'" value="'+r.cortesia+'" min="0"'+(isAuto?' disabled':'')+' style="width:60px;border:1px solid #ccc;border-radius:3px;padding:2px 4px;'+(isAuto?'background:#f5f5f5;color:#aaa;':'')+'"></label>';
+      html+='</span>';
+      html+='<label style="font-size:12px;margin:0;display:inline-flex;align-items:center;gap:4px;"><input type="checkbox" id="ef-ce-'+r.id+'"'+(r.cortesia_conta_estoque?' checked':'')+'>Abate estoque?</label>';
+      html+='<button class="btn btn-success btn-xs" onclick="salvarEstoque('+r.id+')"><i class="fa fa-check"></i> Salvar</button>';
+      html+='<button class="btn btn-default btn-xs" onclick="$(\'#est-form-'+r.id+'\').hide()">Cancelar</button>';
+      html+='</div></td></tr>';
+    });
+    // Linha de subtotal do deal
+    var stTotal=stFem+stMasc;
+    var stPct=stCap>0?stTotal/stCap:0;
+    var stFc=stPct>=0.9?'danger':stPct>=0.6?'warn':'good';
+    html+='<tr style="background:#eef3ff;border-top:2px solid #c0cfe8;font-size:11px;font-weight:700;">';
+    html+='<td style="color:#3a5080;padding:5px 8px 5px 18px;"><i class="fa fa-bar-chart" style="margin-right:4px;opacity:.6;"></i>Subtotal</td>';
+    html+='<td style="text-align:right;color:#3a5080;">'+(temIlimitado?'&infin;':stCap)+'</td>';
+    if(isUni){
+      html+='<td style="text-align:right;color:#6a3db8;" colspan="2">'+stTotal+'</td>';
+    }else{
+      html+='<td style="text-align:right;color:#3a5080;">'+stFem+'</td>';
+      html+='<td style="text-align:right;color:#3a5080;">'+stMasc+'</td>';
+    }
+    html+='<td style="text-align:right;color:#3a5080;">'+stTotal+'</td>';
+    html+='<td style="text-align:right;color:#3a5080;">'+stCort+'</td>';
+    html+='<td style="text-align:right;color:#3a5080;">'+(temIlimitado?'&infin;':stDisp)+'</td>';
+    html+='<td>'+(stCap>0?Math.round(stPct*100)+'%<div class="est-bar"><div class="est-fill '+stFc+'" style="width:'+Math.min(stPct*100,100)+'%"></div></div>':'—')+'</td>';
+    html+='<td></td>';
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  $('#tabela-estoque').html(html);
+}
+function editarEstoque(id){$('#est-form-'+id).toggle();}
+function toggleAutoCorte(id){
+  var auto=$('#ef-ca-'+id).is(':checked');
+  $('#ef-c-'+id).prop('disabled',auto).css({background:auto?'#f5f5f5':'',color:auto?'#aaa':''});
+}
+function salvarEstoque(id){
+  var est=ESTOQUE.find(function(e){return e.id==id;});
+  if(!est)return;
+  var deal=DEALS.find(function(d){return d.id===est.deal_id;})||{};
+  var unissex=dealIsUnissex(deal);
+  if(unissex){est.vendido_fem=+$('#ef-t-'+id).val()||0;est.vendido_masc=0;}
+  else{est.vendido_fem=+$('#ef-f-'+id).val()||0;est.vendido_masc=+$('#ef-m-'+id).val()||0;}
+  est.cortesia_auto=$('#ef-ca-'+id).is(':checked');
+  if(est.cortesia_auto){
+    var regra=deal.fase1_cortesia_regra>0?deal.fase1_cortesia_regra:0;
+    if(regra>0)est.cortesia=Math.floor((est.vendido_fem+est.vendido_masc)/regra);
+  }else{
+    est.cortesia=+$('#ef-c-'+id).val()||0;
+  }
+  est.cortesia_conta_estoque=$('#ef-ce-'+id).is(':checked');
+  salvar('estoque',ESTOQUE);
+  renderEstoque();
+}
+
+// ============================================================
+// UTILS — atualiza selects com dados atuais
+// ============================================================
+function atualizarSelects(){
+  // Filtros multi-select aba Análise
+  buildMenu('f-festa-menu','f-festa-cb',FESTAS.map(function(f){return f.nome;}),getFestasFilter(),'f-festa-lbl','Todas',"atualizarLabelFesta();filtrarAnalise();");
+  buildMenu('f-status-menu','f-status-cb',['Online','Finalizado','Simulado','Projetado','Offline'],getMultiFilter('f-status-cb'),'f-status-lbl','Todos',"updateMenuLabel('f-status-lbl',getMultiFilter('f-status-cb'),'Todos');filtrarAnalise();");
+  buildMenu('f-sexo-menu','f-sexo-cb',['Feminino','Masculino','Misto'],getMultiFilter('f-sexo-cb'),'f-sexo-lbl','Todos',"updateMenuLabel('f-sexo-lbl',getMultiFilter('f-sexo-cb'),'Todos');filtrarAnalise();");
+  var uniqLotes=[];LOTES.forEach(function(l){if(uniqLotes.indexOf(l.nome_lote)===-1)uniqLotes.push(l.nome_lote);});uniqLotes.sort();
+  buildMenu('f-lote-menu','f-lote-cb',uniqLotes,getMultiFilter('f-lote-cb'),'f-lote-lbl','Todos',"updateMenuLabel('f-lote-lbl',getMultiFilter('f-lote-cb'),'Todos');filtrarAnalise();");
+  var uniqTipos=[];LOTES.forEach(function(l){if(l.tipo_pacote&&uniqTipos.indexOf(l.tipo_pacote)===-1)uniqTipos.push(l.tipo_pacote);});uniqTipos.sort();
+  buildMenu('f-tipopacote-menu','f-tipopacote-cb',uniqTipos,getMultiFilter('f-tipopacote-cb'),'f-tipopacote-lbl','Todos',"updateMenuLabel('f-tipopacote-lbl',getMultiFilter('f-tipopacote-cb'),'Todos');filtrarAnalise();");
+  // Select simulador
+  var curLote=$('#sim-lote-ref').val();
+  $('#sim-lote-ref').html('<option value="">— novo cenário —</option>');
+  LOTES.forEach(function(l){
+    if(!l.preco_ticketeira)return;
+    var f=getFesta(l.festa_id);
+    $('#sim-lote-ref').append('<option value="'+l.id+'"'+(curLote==l.id?' selected':'')+'>'+esc(f.nome)+' · '+esc(l.nome_lote)+(l.cenario?' · '+l.cenario:'')+(l.sexo?' ('+l.sexo+')':'')+'</option>');
+  });
+  // Select modal deal
+  var curMd=$('#md-festa').val();
+  $('#md-festa').html('<option value="">Selecione...</option>');
+  FESTAS.forEach(function(f){$('#md-festa').append('<option value="'+f.id+'"'+(curMd==f.id?' selected':'')+'>'+esc(f.nome)+'</option>');});
+}
+
+// ============================================================
+// INIT — chamada direta, script está no final do <body>
+// jQuery e DOM já estão prontos aqui
+// ============================================================
+(function(){
+  var el = document.getElementById('lista-festas');
+  try{
+    renderFestas();
+    if(FESTAS && FESTAS.length) toggleFesta(FESTAS[0].id);
+    renderDeals();
+    renderEstoque();
+    simMetodoChanged();
+  } catch(err){
+    if(el) el.innerHTML = '<div style="background:#fee;border:1px solid red;color:#900;padding:16px;margin:10px;border-radius:4px;font-size:13px;"><b>Erro JavaScript:</b><br>' + err.message + '<br><small>' + (err.stack||'') + '</small></div>';
+  }
+})();
+</script>
+</body>
+</html>
